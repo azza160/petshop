@@ -12,9 +12,10 @@
 
 </head>
 <body>
-    @include('components.navbar')
-    @include('components.hero')
-    @include('components.about')
+    @include('components.section.navbar')
+    @include('components.section.hero')
+    @include('components.section.about')
+    @include('components.section.top-animal')
     @include('components.to-top')
 </body>
 </html>
