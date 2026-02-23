@@ -17,6 +17,7 @@
     @include('components.section.about')
     @include('components.section.top-animal')
     @include('components.section.tips-kesehatan-hewan')
+    @include('components.section.top-products')
     @include('components.to-top')
 </body>
 </html>
