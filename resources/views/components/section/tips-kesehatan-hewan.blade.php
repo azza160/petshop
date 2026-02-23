@@ -13,100 +13,79 @@
         <!-- Bento Grid Layout -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8 mt-12">
             
-            <!-- Item 1: Large Featured Card (Spans 2 cols, 2 rows) -->
-            <div data-aos="fade-up" class="md:col-span-2 lg:col-span-2 lg:row-span-2 relative rounded-[2rem] overflow-hidden shadow-lg group cursor-pointer min-h-[400px] lg:min-h-full">
+            <!-- Card 1: Makanan (Large - 2x2) -->
+            <div data-aos="fade-up" data-aos-delay="0" class="md:col-span-2 lg:col-span-2 lg:row-span-2 rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden h-full flex flex-col justify-end min-h-[380px] lg:min-h-[420px]">
                 <!-- Background Image -->
-                <img src="https://images.unsplash.com/photo-1628009368231-7bb7cbcb8122?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Pemeriksaan Rutin" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                <!-- Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t from-dark/95 via-dark/40 to-transparent transition-opacity duration-500"></div>
+                <img src="/img/tips-1.jpg" alt="Nutrisi Hewan" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <!-- Overlay Gradient -->
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/95 via-dark/40 to-black/10 transition-opacity duration-500 group-hover:opacity-90"></div>
+                
+                <!-- Floating Icon -->
+                <div class="absolute top-6 right-6 lg:top-8 lg:right-8 w-14 h-14 lg:w-16 lg:h-16 rounded-md bg-white/20 backdrop-blur-md text-white flex items-center justify-center text-3xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/30 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300 z-10">
+                    🥩
+                </div>
                 
                 <!-- Content -->
-                <div class="absolute bottom-0 left-0 w-full p-6 md:p-8 flex flex-col justify-end">
-                    <div class="mb-2">
-                        <span class="inline-block px-3 py-1 bg-primary text-white text-xs font-bold rounded-full shadow-md mb-3 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">Penting</span>
-                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors drop-shadow-md">Pentingnya Vaksinasi Rutin untuk Kucing & Anjing</h3>
-                        <p class="text-slate-200 text-sm md:text-base line-clamp-2 md:line-clamp-3 mb-5 opacity-90">Vaksinasi adalah langkah pencegahan paling efektif untuk melindungi hewan peliharaan kesayangan Anda dari berbagai penyakit menular dan mematikan.</p>
-                        
-                        <!-- Author / Meta -->
-                        <div class="flex items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1594824432258-410d5106199f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Dr. Hewan" class="w-10 h-10 rounded-full border-2 border-white/20 object-cover shadow-sm">
-                            <div>
-                                <p class="text-sm font-semibold text-white">Drh. Ananda</p>
-                                <p class="text-[11px] text-slate-300 font-medium">5 Min read • 1.2K Views</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Hover Play/Read Icon -->
-                <div class="absolute top-6 right-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 border border-white/30">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                <div class="relative z-10 p-6 lg:p-10">
+                    <span class="inline-block px-3 py-1 bg-emerald-500 text-white text-xs lg:text-sm font-bold rounded-md mb-4 tracking-wider uppercase shadow-md shadow-emerald-500/20 transform group-hover:-translate-y-1 transition-transform duration-300">Asupan Utama</span>
+                    <h4 class="text-2xl lg:text-3xl font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors duration-300 leading-tight drop-shadow-md">Nutrisi & Pola Makan</h4>
+                    <p class="text-slate-200 leading-relaxed text-sm lg:text-base opacity-90 max-w-lg">Berikan makanan bernutrisi seimbang sesuai usia dan jenis peliharaan Anda. Hal ini sangat krusial untuk menjaga kesehatan tulang, pertumbuhan bulu, serta energi hariannya agar tetap lincah dan optimal.</p>
                 </div>
             </div>
 
-            <!-- Item 2: Horizontal Card (Spans 2 cols, 1 row) -->
-            <div data-aos="fade-up" data-aos-delay="100" class="md:col-span-2 lg:col-span-2 lg:row-span-1 bg-white rounded-[2rem] p-4 sm:p-6 shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 border border-slate-100 flex flex-col sm:flex-row gap-5 items-center group cursor-pointer relative overflow-hidden">
-                <!-- Image -->
-                <div class="w-full sm:w-1/3 aspect-[2/1] sm:aspect-square sm:max-w-[160px] shrink-0 rounded-2xl overflow-hidden bg-slate-100 relative">
-                    <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Nutrisi Hewan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <!-- Content -->
-                <div class="flex-1 text-center sm:text-left">
-                    <span class="text-xs font-bold text-secondary bg-secondary/10 px-2.5 py-1 rounded-md mb-3 inline-block uppercase tracking-wider">Nutrisi</span>
-                    <h4 class="text-xl font-bold text-dark group-hover:text-primary transition-colors mb-2 leading-tight">Memilih Makanan yang Tepat Sesuai Usia</h4>
-                    <p class="text-sm text-muted line-clamp-2 mb-4">Kebutuhan nutrisi anak anjing sangat berbeda dengan anjing senior. Ketahui cara memilih takaran dan jenis makanan yang tepat.</p>
-                    <div class="flex items-center justify-center sm:justify-start text-primary text-sm font-semibold group-hover:translate-x-1 transition-transform">
-                        <span>Baca Artikel</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                        </svg>
+            <!-- Card 2: Perawatan Bulu (Wide - 2x1) -->
+            <div data-aos="fade-up" data-aos-delay="100" class="md:col-span-2 lg:col-span-2 lg:row-span-1 bg-white rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-slate-100 group relative overflow-hidden flex flex-col sm:flex-row items-stretch min-h-[200px]">
+                
+                <!-- Text Content -->
+                <div class="relative z-10 flex-1 p-6 lg:p-8 flex flex-col justify-center order-2 sm:order-1 bg-gradient-to-r from-blue-50/50 to-transparent">
+                    <div class="flex items-center gap-4 mb-3 lg:mb-4">
+                         <div class="w-12 h-12 lg:w-14 lg:h-14 shrink-0 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-2xl lg:text-3xl shadow-sm border border-blue-100 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                             🛁
+                         </div>
+                         <h4 class="text-xl lg:text-2xl font-bold text-dark group-hover:text-blue-700 transition-colors duration-300 leading-tight">Perawatan Kulit</h4>
                     </div>
+                    <p class="text-sm lg:text-base text-slate-600 leading-relaxed">Mandikan dan sisir bulu secara rutin untuk mencegah bulu kusut, menghilangkan parasit, serta menjaga kesehatan kulit peliharaan.</p>
+                </div>
+                
+                <!-- Side Image -->
+                <div class="w-full sm:w-2/5 h-48 sm:h-full relative overflow-hidden order-1 sm:order-2 shrink-0 bg-blue-100">
+                    <!-- overlay color -->
+                    <div class="absolute inset-0 bg-blue-600/10 mix-blend-multiply z-10 transition-opacity duration-300 group-hover:opacity-0"></div>
+                    <!-- Slant Effect Divider -->
+                    <div class="hidden sm:block absolute inset-y-0 -left-6 w-12 bg-white transform skew-x-12 z-20"></div>
+                    <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Grooming" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 </div>
             </div>
 
-            <!-- Item 3: Square Card 1 -->
-            <div data-aos="fade-up" data-aos-delay="200" class="md:col-span-1 lg:col-span-1 lg:row-span-1 bg-emerald-50 rounded-[2rem] p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border border-emerald-100 flex flex-col justify-between group cursor-pointer relative overflow-hidden h-full min-h-[220px]">
-                <!-- Abstract Blob -->
-                <div class="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+            <!-- Card 3: Mainan Hewan (Square - 1x1) -->
+            <div data-aos="fade-up" data-aos-delay="200" class="md:col-span-1 lg:col-span-1 lg:row-span-1 bg-gradient-to-br from-white to-amber-50/80 rounded-lg p-6 xl:p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-amber-100/50 group relative overflow-hidden h-full flex flex-col min-h-[220px]">
+                <!-- Decorative Abstract Shapes -->
+                <div class="absolute -top-12 -right-12 w-32 h-32 border-[20px] border-amber-500/10 rounded-full group-hover:scale-[1.8] opacity-50 transition-transform duration-700"></div>
+                <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/20 transition-colors duration-500"></div>
                 
-                <div class="w-14 h-14 rounded-2xl bg-white text-primary flex items-center justify-center text-3xl mb-6 relative z-10 shadow-sm border border-emerald-100 shadow-primary/10 transform group-hover:-translate-y-2 transition-transform duration-300">
-                    🛁
-                </div>
-                <div class="relative z-10 mt-auto">
-                    <h4 class="text-lg font-bold text-dark group-hover:text-primary transition-colors mb-2 leading-snug">Tips Grooming di Rumah</h4>
-                    <p class="text-[13px] text-slate-600 line-clamp-2 md:line-clamp-3">Cara memandikan dan memotong kuku peliharaan tanpa membuatnya stres.</p>
-                </div>
-                <!-- Hover Arrow -->
-                <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Item 4: Square Card 2 -->
-            <div data-aos="fade-up" data-aos-delay="300" class="md:col-span-1 lg:col-span-1 lg:row-span-1 bg-amber-50 rounded-[2rem] p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border border-amber-100 flex flex-col justify-between group cursor-pointer relative overflow-hidden h-full min-h-[220px]">
-                <!-- Abstract Blob -->
-                <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-                
-                <div class="w-14 h-14 rounded-2xl bg-white text-secondary flex items-center justify-center text-3xl mb-6 relative z-10 shadow-sm border border-amber-100 shadow-secondary/10 transform group-hover:-translate-y-2 transition-transform duration-300">
+                <div class="w-14 h-14 rounded-md bg-white text-amber-600 flex items-center justify-center text-3xl mb-auto shadow-sm border border-amber-100 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300 relative z-10">
                     🎾
                 </div>
-                <div class="relative z-10 mt-auto">
-                    <h4 class="text-lg font-bold text-dark group-hover:text-secondary transition-colors mb-2 leading-snug">Pentingnya Waktu Bermain</h4>
-                    <p class="text-[13px] text-slate-600 line-clamp-2 md:line-clamp-3">Aktivitas fisik mencegah obesitas dan menjaga kesehatan mental.</p>
+                
+                <div class="relative z-10 mt-6 lg:mt-8">
+                    <h4 class="text-lg font-bold text-dark mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-tight">Mainan Berinteraksi</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Sediakan mainan interaktif untuk menstimulasi fisik hewan peliharaan, mencegah rasa bosan dan stres saat ditinggal sendirian.</p>
                 </div>
-                <!-- Hover Arrow -->
-                <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                    <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
+            </div>
+
+            <!-- Card 4: Kandang/Lingkungan (Square - 1x1) -->
+            <div data-aos="fade-up" data-aos-delay="300" class="md:col-span-1 lg:col-span-1 lg:row-span-1 bg-gradient-to-br from-white to-purple-50/80 rounded-lg p-6 xl:p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-purple-100/50 group relative overflow-hidden h-full flex flex-col min-h-[220px]">
+                <!-- Decorative SVG Dot Pattern -->
+                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9IiNhODU1ZjciIGZpbGwtb3BhY2l0eT0iMC4xNSIvPjwvc3ZnPg==')] opacity-0 group-hover:opacity-40 transition-opacity duration-500 z-0"></div>
+                <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/10 transition-colors duration-500 z-0"></div>
+                
+                <div class="w-14 h-14 rounded-md bg-white text-purple-600 flex items-center justify-center text-3xl mb-auto shadow-sm border border-purple-100 group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-300 relative z-10">
+                    🏡
+                </div>
+                
+                <div class="relative z-10 mt-6 lg:mt-8">
+                    <h4 class="text-lg font-bold text-dark mb-2 group-hover:text-purple-700 transition-colors duration-300 leading-tight">Lingkungan Bersih</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Pastikan kebersihan kandang dan tempat tidur peliharaan selalu terjaga untuk mencegah sarang penyakit dan parasit.</p>
                 </div>
             </div>
 
