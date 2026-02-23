@@ -65,49 +65,57 @@
 
                 <!-- Features List -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-                    <!-- Feature 1 -->
-                    <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
-                            🐾
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-dark text-lg mb-1">Produk Premium</h4>
-                            <p class="text-sm text-muted leading-relaxed">Pilihan makanan dan perlengkapan berkualitas tinggi.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Feature 2 -->
-                    <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-secondary group-hover:text-white transition-all">
-                            ❤️
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-dark text-lg mb-1">Staf Ramah</h4>
-                            <p class="text-sm text-muted leading-relaxed">Dilayani oleh pecinta hewan yang profesional.</p>
-                        </div>
-                    </div>
+             <!-- Feature 1 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
+    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
+        🐶
+    </div>
+    <div>
+        <h4 class="font-bold text-dark text-lg mb-1">Sahabat Baru untuk Anda</h4>
+        <p class="text-sm text-muted leading-relaxed text">
+            Beragam hewan peliharaan sehat dan terawat, siap menjadi bagian dari keluarga Anda.
+        </p>
+    </div>
+</div>
 
-                    <!-- Feature 3 -->
-                    <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all">
-                            🏥
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-dark text-lg mb-1">Klinik 24 Jam</h4>
-                            <p class="text-sm text-muted leading-relaxed">Layanan medis sigap kapan pun dibutuhkan.</p>
-                        </div>
-                    </div>
+<!-- Feature 2 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
+    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-secondary group-hover:text-white transition-all">
+        🛁
+    </div>
+    <div>
+        <h4 class="font-bold text-dark text-lg mb-1">Grooming & Perawatan Profesional</h4>
+        <p class="text-sm text-muted leading-relaxed">
+            Layanan mandi, perawatan bulu, dan kesehatan rutin untuk menjaga hewan tetap bersih dan nyaman.
+        </p>
+    </div>
+</div>
 
-                    <!-- Feature 4 -->
-                    <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white transition-all">
-                            ✂️
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-dark text-lg mb-1">Grooming & Spa</h4>
-                            <p class="text-sm text-muted leading-relaxed">Perawatan mandi dan bulu agar tampil maksimal.</p>
-                        </div>
-                    </div>
+<!-- Feature 3 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
+    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all">
+        🛍️
+    </div>
+    <div>
+        <h4 class="font-bold text-dark text-lg mb-1">Produk Berkualitas Terbaik</h4>
+        <p class="text-sm text-muted leading-relaxed">
+            Makanan, vitamin, dan perlengkapan pilihan dengan kualitas terjamin untuk kebutuhan hewan kesayangan Anda.
+        </p>
+    </div>
+</div>
+
+<!-- Feature 4 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group">
+    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white transition-all">
+        💬
+    </div>
+    <div>
+        <h4 class="font-bold text-dark text-lg mb-1">Konsultasi & Edukasi Perawatan</h4>
+        <p class="text-sm text-muted leading-relaxed">
+            Dapatkan bimbingan dan saran terpercaya seputar perawatan hewan agar tumbuh sehat dan bahagia.
+        </p>
+    </div>
+</div>
                 </div>
 
                 <!-- CTA -->

@@ -58,7 +58,7 @@
         <div class="relative w-full aspect-[4/3] bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6 z-10 overflow-hidden">
             
             @if(isset($product['isTopSale']) && $product['isTopSale'])
-            <div class="absolute top-8 left-8 z-20 bg-secondary text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-md shadow-sm">
+            <div class="absolute top-8 left-8 z-20 bg-secondary text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded shadow-sm">
                 Top Sale
             </div>
             @endif
@@ -80,7 +80,7 @@
                 </span>
 
                 <!-- Stock Badge -->
-                <div class="flex items-center gap-1.5 bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-1 rounded-md border border-slate-200">
+                <div class="flex items-center gap-1.5 bg-slate-100 text-primary text-xs font-semibold px-2.5 py-1 rounded-md border border-primary">
                     <!-- Box Icon (stok) -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9-4 9 4-9 4-9-4z" />
