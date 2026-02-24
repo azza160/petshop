@@ -18,6 +18,7 @@
     @include('components.section.top-animal')
     @include('components.section.tips-kesehatan-hewan')
     @include('components.section.top-products')
+    @include('components.section.statistik')
     @include('components.to-top')
 </body>
 </html>
