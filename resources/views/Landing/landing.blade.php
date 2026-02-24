@@ -20,6 +20,7 @@
     @include('components.section.top-products')
     @include('components.section.statistik')
     @include('components.section.testimonial')
+    @include('components.section.alamat-dan-social-media')
     @include('components.to-top')
 </body>
 </html>
