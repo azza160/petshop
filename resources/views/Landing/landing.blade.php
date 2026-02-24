@@ -19,6 +19,7 @@
     @include('components.section.tips-kesehatan-hewan')
     @include('components.section.top-products')
     @include('components.section.statistik')
+    @include('components.section.testimonial')
     @include('components.to-top')
 </body>
 </html>
