@@ -33,7 +33,7 @@
             <div class="hidden lg:block absolute -top-10 -left-10 w-32 h-32 bg-primary/10 rounded-lg blur-2xl -z-10 animate-pulse"></div>
 
             <!-- Left: Main Hubungi Kami Card -->
-            <div class="bg-white rounded-lg shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] border border-slate-100 p-6 sm:p-8 flex flex-col h-full relative overflow-hidden" data-aos="fade-right">
+            <div class="bg-white rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] border border-slate-100 p-6 sm:p-8 flex flex-col h-full relative overflow-hidden" data-aos="fade-right">
                 
                 <!-- Tiny corner accent -->
                 <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/5 to-transparent"></div>
@@ -124,7 +124,7 @@
             <div class="w-full min-h-[350px] lg:min-h-full h-full p-2" data-aos="fade-left" data-aos-delay="200">
                 
                 <!-- Map Container with decorative wrapper -->
-                <div class="relative w-full h-full rounded-lg bg-white p-2 border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] group overflow-hidden">
+                <div class="relative w-full h-full rounded-xl bg-white p-2 border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] group overflow-hidden">
                     
                     <!-- Map wrapper with border radius limit -->
                     <div class="w-full h-full rounded-md overflow-hidden bg-slate-100 relative shadow-inner">
