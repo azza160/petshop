@@ -1,4 +1,25 @@
-<div x-data="{ open: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > 20)" class="sticky top-0 z-50 w-full">
+<div x-data="{
+    open: false,
+    isScrolled: false,
+    activeSection: 'hero'
+}" x-init="const sections = ['hero', 'about', 'top-animals', 'tips-kesehatan', 'top-products', 'statistik', 'testimonial', 'contact'];
+const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+};
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            activeSection = entry.target.id;
+        }
+    });
+}, observerOptions);
+sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+});" @scroll.window="isScrolled = (window.pageYOffset > 20)"
+    class="sticky top-0 z-50 w-full">
 
     <!-- Mobile Overlay -->
     <div x-show="open" x-cloak x-transition:enter="transition opacity-100 ease-out duration-300"
@@ -20,15 +41,22 @@
 
             <!-- Desktop Menu -->
             <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <li><a href="#hero" class="hover:text-primary transition">Beranda</a></li>
-                <li><a href="#about" class="hover:text-primary transition">Tentang</a></li>
-                <li><a href="#top-animals" class="hover:text-primary transition">Hewan</a></li>
-                <li><a href="#tips-kesehatan" class="hover:text-primary transition">Tips</a></li>
-                <li><a href="#top-products" class="hover:text-primary transition">Produk</a></li>
-                <li><a href="#statistik" class="hover:text-primary transition">Statistik</a></li>
-                <li><a href="#testimonial" class="hover:text-primary transition">Testimoni</a></li>
-                <li><a href="#contact" class="hover:text-primary transition">Kontak</a></li>
-
+                <li><a href="#hero" class="transition hover:text-primary"
+                        :class="activeSection === 'hero' ? 'text-primary' : ''">Beranda</a></li>
+                <li><a href="#about" class="transition hover:text-primary"
+                        :class="activeSection === 'about' ? 'text-primary' : ''">Tentang</a></li>
+                <li><a href="#top-animals" class="transition hover:text-primary"
+                        :class="activeSection === 'top-animals' ? 'text-primary' : ''">Hewan</a></li>
+                <li><a href="#tips-kesehatan" class="transition hover:text-primary"
+                        :class="activeSection === 'tips-kesehatan' ? 'text-primary' : ''">Tips</a></li>
+                <li><a href="#top-products" class="transition hover:text-primary"
+                        :class="activeSection === 'top-products' ? 'text-primary' : ''">Produk</a></li>
+                <li><a href="#statistik" class="transition hover:text-primary"
+                        :class="activeSection === 'statistik' ? 'text-primary' : ''">Statistik</a></li>
+                <li><a href="#testimonial" class="transition hover:text-primary"
+                        :class="activeSection === 'testimonial' ? 'text-primary' : ''">Testimoni</a></li>
+                <li><a href="#contact" class="transition hover:text-primary"
+                        :class="activeSection === 'contact' ? 'text-primary' : ''">Kontak</a></li>
             </ul>
 
             <!-- CTA -->
@@ -76,11 +104,16 @@
             class="md:hidden origin-top overflow-hidden bg-white border-t border-slate-200/80 relative z-50">
 
             <ul class="flex flex-col p-4 gap-4 text-sm font-medium">
-                <li><a href="#" @click="open=false" class="block hover:text-primary">Beranda</a></li>
-                <li><a href="#" @click="open=false" class="block hover:text-primary">Tentang Kami</a></li>
-                <li><a href="#" @click="open=false" class="block hover:text-primary">Hewan</a></li>
-                <li><a href="#" @click="open=false" class="block hover:text-primary">Produk</a></li>
-                <li><a href="#" @click="open=false" class="block hover:text-primary">Kontak</a></li>
+                <li><a href="#hero" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'hero' ? 'text-primary' : ''">Beranda</a></li>
+                <li><a href="#about" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'about' ? 'text-primary' : ''">Tentang Kami</a></li>
+                <li><a href="#top-animals" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'top-animals' ? 'text-primary' : ''">Hewan</a></li>
+                <li><a href="#top-products" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'top-products' ? 'text-primary' : ''">Produk</a></li>
+                <li><a href="#contact" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'contact' ? 'text-primary' : ''">Kontak</a></li>
 
                 <li class="pt-2">
                     <a href="#" class="btn-primary w-full text-center">
@@ -89,10 +122,5 @@
                 </li>
             </ul>
         </div>
-
-
-
-
-
     </header>
 </div>
