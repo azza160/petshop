@@ -106,17 +106,30 @@ sections.forEach(id => {
             <ul class="flex flex-col p-4 gap-4 text-sm font-medium">
                 <li><a href="#hero" @click="open=false" class="block hover:text-primary"
                         :class="activeSection === 'hero' ? 'text-primary' : ''">Beranda</a></li>
+
                 <li><a href="#about" @click="open=false" class="block hover:text-primary"
-                        :class="activeSection === 'about' ? 'text-primary' : ''">Tentang Kami</a></li>
+                        :class="activeSection === 'about' ? 'text-primary' : ''">Tentang</a></li>
+
                 <li><a href="#top-animals" @click="open=false" class="block hover:text-primary"
                         :class="activeSection === 'top-animals' ? 'text-primary' : ''">Hewan</a></li>
+
+                <li><a href="#tips-kesehatan" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'tips-kesehatan' ? 'text-primary' : ''">Tips</a></li>
+
                 <li><a href="#top-products" @click="open=false" class="block hover:text-primary"
                         :class="activeSection === 'top-products' ? 'text-primary' : ''">Produk</a></li>
+
+                <li><a href="#statistik" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'statistik' ? 'text-primary' : ''">Statistik</a></li>
+
+                <li><a href="#testimonial" @click="open=false" class="block hover:text-primary"
+                        :class="activeSection === 'testimonial' ? 'text-primary' : ''">Testimoni</a></li>
+
                 <li><a href="#contact" @click="open=false" class="block hover:text-primary"
                         :class="activeSection === 'contact' ? 'text-primary' : ''">Kontak</a></li>
 
                 <li class="pt-2">
-                    <a href="#" class="btn-primary w-full text-center">
+                    <a href="#contact" @click="open=false" class="btn-primary w-full text-center">
                         Hubungi Kami
                     </a>
                 </li>
