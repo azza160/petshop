@@ -26,7 +26,7 @@ sections.forEach(id => {
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="transition opacity-100 ease-in duration-200" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0" @click="open = false"
-        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"></div>
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden"></div>
 
     <header class="transition-all duration-300 text-dark relative z-50"
         :class="(isScrolled || open) ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80' :
@@ -40,7 +40,7 @@ sections.forEach(id => {
             </div>
 
             <!-- Desktop Menu -->
-            <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <ul class="hidden lg:flex items-center gap-8 text-sm font-medium">
                 <li><a href="#hero" class="transition hover:text-primary"
                         :class="activeSection === 'hero' ? 'text-primary' : ''">Beranda</a></li>
                 <li><a href="#about" class="transition hover:text-primary"
@@ -60,14 +60,14 @@ sections.forEach(id => {
             </ul>
 
             <!-- CTA -->
-            <div class="hidden md:flex">
+            <div class="hidden lg:flex">
                 <a href="#" class="btn-primary text-sm">
                     Hubungi Kami
                 </a>
             </div>
 
             <!-- Mobile Button -->
-            <button @click="open = !open" class="md:hidden text-2xl cursor-pointer relative w-8 h-8"
+            <button @click="open = !open" class="lg:hidden text-2xl cursor-pointer relative w-8 h-8"
                 aria-label="Toggle Menu">
                 <!-- Hamburger -->
                 <span x-show="!open" x-transition:enter="transition-all duration-200 ease-out"
@@ -101,7 +101,7 @@ sections.forEach(id => {
             x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-200 transform"
             x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
-            class="md:hidden origin-top overflow-hidden bg-white border-t border-slate-200/80 relative z-50">
+            class="lg:hidden origin-top overflow-hidden bg-white border-t border-slate-200/80 relative z-50">
 
             <ul class="flex flex-col p-4 gap-4 text-sm font-medium">
                 <li><a href="#hero" @click="open=false" class="block hover:text-primary"
