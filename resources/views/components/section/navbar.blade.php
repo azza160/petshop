@@ -101,7 +101,7 @@ sections.forEach(id => {
             x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-200 transform"
             x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
-            class="lg:hidden origin-top overflow-hidden bg-white border-t border-slate-200/80 relative z-50">
+            class="lg:hidden absolute top-full left-0 w-full origin-top overflow-hidden bg-white border-b border-slate-200/80 shadow-xl z-50">
 
             <ul class="flex flex-col p-4 gap-4 text-sm font-medium">
                 <li><a href="#hero" @click="open=false" class="block hover:text-primary"

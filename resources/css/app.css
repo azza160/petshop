@@ -30,6 +30,11 @@
         scroll-behavior: smooth;
     }
 
+    /* Account for sticky header height */
+    section[id] {
+        scroll-margin-top: 5rem;
+    }
+
     body {
         @apply bg-slate-50 text-slate-800 font-sans;
     }
