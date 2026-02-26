@@ -1,6 +1,6 @@
 <x-admin-template>
     <x-slot:title>Dashboard</x-slot>
-    <x-slot:headerTitle>Overview</x-slot>
+    <x-slot:headerTitle>Main Dashboard</x-slot>
 
     <!-- Welcome Card -->
     <div class="bg-gradient-to-r from-primary to-emerald-500 rounded-2xl p-6 sm:p-8 text-white shadow-lg shadow-primary/20 mb-8 relative overflow-hidden"
