@@ -54,12 +54,13 @@
         <div
             class="flex-1 overflow-y-auto overflow-x-hidden py-4 scrollbar-thin scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 px-3">
             <ul class="space-y-1.5">
-                <!-- Nav Item: Home -->
                 <li>
-                    <a href="#"
-                        class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group text-primary bg-primary/10 relative overflow-hidden"
+                    <a href="{{ route('admin') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group {{ request()->routeIs('admin') ? 'text-primary bg-primary/10 relative overflow-hidden' : 'text-muted hover:text-dark hover:bg-slate-100' }}"
                         title="Dashboard">
-                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-md"></div>
+                        @if (request()->routeIs('admin'))
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-md"></div>
+                        @endif
                         <i class="ph ph-squares-four text-xl shrink-0 transition-transform group-hover:scale-110"></i>
                         <span class="font-medium whitespace-nowrap transition-opacity duration-300"
                             :class="!sidebarOpen ? 'opacity-0 w-0' : 'opacity-100'">
@@ -74,11 +75,13 @@
                     <p class="text-[11px] font-bold tracking-wider text-slate-400 uppercase">Manajemen Data</p>
                 </li>
 
-                <!-- Nav Item: Data Category -->
                 <li>
-                    <a href="#"
-                        class="flex items-center gap-3 px-3 py-2.5 rounded-md text-muted hover:text-dark hover:bg-slate-100 transition-all duration-200 group relative"
+                    <a href="{{ route('admin.category') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group {{ request()->routeIs('admin.category') ? 'text-primary bg-primary/10 relative overflow-hidden' : 'text-muted hover:text-dark hover:bg-slate-100' }}"
                         title="Data Kategori">
+                        @if (request()->routeIs('admin.category'))
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-md"></div>
+                        @endif
                         <i
                             class="ph ph-folder-notch text-xl shrink-0 transition-transform group-hover:scale-110 group-hover:text-secondary"></i>
                         <span class="font-medium whitespace-nowrap transition-opacity duration-300"
@@ -298,6 +301,8 @@
             }
         }
     </script>
+
+    @stack('modals')
 </body>
 
 </html>

@@ -9,7 +9,8 @@
             <nav class="flex text-sm text-muted font-medium" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
-                        <a href="#" class="hover:text-primary transition-colors flex items-center gap-1">
+                        <a href="{{ route('admin') }}"
+                            class="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
                             <i class="ph ph-house"></i>
                             Dashboard
                         </a>
@@ -25,14 +26,10 @@
         </div>
     </div>
 
-    <!-- Main State Area -->
     <div x-data="{
         search: '',
         filterType: 'semua',
         sortTime: 'terbaru',
-        addModalOpen: false,
-        editModalOpen: false,
-        deleteModalOpen: false,
     }">
 
         <!-- Toolbar -->
@@ -78,8 +75,8 @@
 
                 <!-- Add Button -->
                 <div class="flex-shrink-0 w-full lg:w-auto">
-                    <button @click="addModalOpen = true"
-                        class="w-full lg:w-auto px-4 py-2 bg-primary text-white text-sm font-semibold rounded-md hover:bg-emerald-600 transition flex items-center justify-center gap-2 shadow-sm">
+                    <button @click="$dispatch('open-modal-add')"
+                        class="w-full lg:w-auto px-4 py-2 bg-primary text-white text-sm font-semibold rounded-md hover:bg-emerald-600 transition flex items-center justify-center gap-2 shadow-sm cursor-pointer">
                         <i class="ph ph-plus text-lg"></i>
                         Tambah Data
                     </button>
@@ -113,13 +110,13 @@
                             </td>
                             <td class="p-4">
                                 <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="editModalOpen = true"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
+                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
                                         title="Edit">
                                         <i class="ph ph-pencil-simple"></i>
                                     </button>
-                                    <button @click="deleteModalOpen = true"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-delete')"
+                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
                                         title="Hapus">
                                         <i class="ph ph-trash"></i>
                                     </button>
@@ -139,13 +136,13 @@
                             </td>
                             <td class="p-4">
                                 <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="editModalOpen = true"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
+                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
                                         title="Edit">
                                         <i class="ph ph-pencil-simple"></i>
                                     </button>
-                                    <button @click="deleteModalOpen = true"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-delete')"
+                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
                                         title="Hapus">
                                         <i class="ph ph-trash"></i>
                                     </button>
@@ -165,13 +162,13 @@
                             </td>
                             <td class="p-4">
                                 <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="editModalOpen = true"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
+                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
                                         title="Edit">
                                         <i class="ph ph-pencil-simple"></i>
                                     </button>
-                                    <button @click="deleteModalOpen = true"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-delete')"
+                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
                                         title="Hapus">
                                         <i class="ph ph-trash"></i>
                                     </button>
@@ -191,13 +188,13 @@
                             </td>
                             <td class="p-4">
                                 <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="editModalOpen = true"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
+                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
                                         title="Edit">
                                         <i class="ph ph-pencil-simple"></i>
                                     </button>
-                                    <button @click="deleteModalOpen = true"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition"
+                                    <button @click="$dispatch('open-modal-delete')"
+                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
                                         title="Hapus">
                                         <i class="ph ph-trash"></i>
                                     </button>
@@ -212,208 +209,211 @@
             <!-- Pagination -->
             <div
                 class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50">
-                <div class="text-sm text-muted">
-                    Menampilkan <span class="font-semibold text-dark">1</span> sampai <span
+                <div class="text-sm text-muted text-center sm:text-left">
+                    Menampilkan <span class="font-semibold text-dark">1</span> - <span
                         class="font-semibold text-dark">4</span> dari <span class="font-semibold text-dark">12</span>
-                    data
                 </div>
                 <div class="flex items-center gap-1">
                     <button
-                        class="px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         disabled>
-                        Sebelumnya
+                        <span class="hidden sm:inline">Sebelumnya</span>
+                        <i class="ph ph-caret-left sm:hidden"></i>
                     </button>
                     <button
-                        class="px-3 py-1.5 bg-primary text-white border border-primary rounded-md text-sm font-medium hover:bg-emerald-600 transition shadow-sm">
+                        class="px-3 py-1.5 bg-primary text-white border border-primary rounded-md text-sm font-medium hover:bg-emerald-600 transition shadow-sm cursor-pointer">
                         1
                     </button>
                     <button
-                        class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition">
+                        class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition cursor-pointer">
                         2
                     </button>
                     <button
-                        class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition">
+                        class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition cursor-pointer">
                         3
                     </button>
                     <button
-                        class="px-3 py-1.5 border border-slate-200 rounded-md text-sm text-dark bg-white hover:bg-slate-50 transition">
-                        Selanjutnya
+                        class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-dark bg-white hover:bg-slate-50 transition cursor-pointer">
+                        <span class="hidden sm:inline">Selanjutnya</span>
+                        <i class="ph ph-caret-right sm:hidden"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Modals -->
+        @push('modals')
+            <!-- Add Data Modal -->
+            <div x-data="{ open: false }" @open-modal-add.window="open = true" x-show="open"
+                class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
+                <!-- Overlay -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
+                    @click="open = false"></div>
 
-        <!-- Add Data Modal -->
-        <div x-show="addModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0" x-cloak>
-            <!-- Overlay -->
-            <div x-show="addModalOpen" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
-                @click="addModalOpen = false"></div>
+                <!-- Modal Content -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-md overflow-hidden">
 
-            <!-- Modal Content -->
-            <div x-show="addModalOpen" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-md overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                        <h3 class="text-lg font-bold text-dark">Tambah Kategori Baru</h3>
+                        <button @click="open = false" class="text-muted hover:text-dark transition cursor-pointer">
+                            <i class="ph ph-x text-xl"></i>
+                        </button>
+                    </div>
 
-                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-                    <h3 class="text-lg font-bold text-dark">Tambah Kategori Baru</h3>
-                    <button @click="addModalOpen = false" class="text-muted hover:text-dark transition">
-                        <i class="ph ph-x text-xl"></i>
-                    </button>
-                </div>
-
-                <form @submit.prevent="addModalOpen = false">
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <label for="nama_kategori" class="block text-sm font-semibold text-dark mb-1">Nama
-                                Kategori</label>
-                            <input type="text" id="nama_kategori" placeholder="Masukkan nama kategori" required
-                                class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition">
-                        </div>
-                        <div>
-                            <label for="tipe_kategori" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
-                            <div class="relative">
-                                <select id="tipe_kategori" required
-                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white">
-                                    <option value="" disabled selected>Pilih tipe kategori</option>
-                                    <option value="hewan">Hewan</option>
-                                    <option value="produk">Produk</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
-                                    <i class="ph ph-caret-down"></i>
+                    <form @submit.prevent="open = false">
+                        <div class="p-6 space-y-4">
+                            <div>
+                                <label for="nama_kategori" class="block text-sm font-semibold text-dark mb-1">Nama
+                                    Kategori</label>
+                                <input type="text" id="nama_kategori" placeholder="Masukkan nama kategori" required
+                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                            </div>
+                            <div>
+                                <label for="tipe_kategori" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
+                                <div class="relative">
+                                    <select id="tipe_kategori" required
+                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
+                                        <option value="" disabled selected>Pilih tipe kategori</option>
+                                        <option value="hewan">Hewan</option>
+                                        <option value="produk">Produk</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
+                                        <i class="ph ph-caret-down"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-                        <button type="button" @click="addModalOpen = false"
-                            class="px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition">
-                            Batal
-                        </button>
-                        <button type="submit"
-                            class="px-4 py-2 bg-primary border border-primary rounded-md text-sm font-semibold text-white hover:bg-emerald-600 transition shadow-sm">
-                            Simpan Data
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Edit Data Modal -->
-        <div x-show="editModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0" x-cloak>
-            <!-- Overlay -->
-            <div x-show="editModalOpen" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
-                @click="editModalOpen = false"></div>
-
-            <!-- Modal Content -->
-            <div x-show="editModalOpen" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-md overflow-hidden">
-
-                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-                    <h3 class="text-lg font-bold text-dark">Edit Kategori</h3>
-                    <button @click="editModalOpen = false" class="text-muted hover:text-dark transition">
-                        <i class="ph ph-x text-xl"></i>
-                    </button>
-                </div>
-
-                <form @submit.prevent="editModalOpen = false">
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <label for="edit_nama_kategori" class="block text-sm font-semibold text-dark mb-1">Nama
-                                Kategori</label>
-                            <input type="text" id="edit_nama_kategori" value="Kucing" required
-                                class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition">
+                        <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                            <button type="button" @click="open = false"
+                                class="px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition cursor-pointer">
+                                Batal
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-primary border border-primary rounded-md text-sm font-semibold text-white hover:bg-emerald-600 transition shadow-sm cursor-pointer">
+                                Simpan Data
+                            </button>
                         </div>
-                        <div>
-                            <label for="edit_tipe_kategori"
-                                class="block text-sm font-semibold text-dark mb-1">Tipe</label>
-                            <div class="relative">
-                                <select id="edit_tipe_kategori" required
-                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white">
-                                    <option value="hewan" selected>Hewan</option>
-                                    <option value="produk">Produk</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
-                                    <i class="ph ph-caret-down"></i>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Edit Data Modal -->
+            <div x-data="{ open: false, name: '', type: '' }"
+                @open-modal-edit.window="open = true; name = $event.detail.name; type = $event.detail.type" x-show="open"
+                class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
+                <!-- Overlay -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
+                    @click="open = false"></div>
+
+                <!-- Modal Content -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-md overflow-hidden">
+
+                    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                        <h3 class="text-lg font-bold text-dark">Edit Kategori</h3>
+                        <button @click="open = false" class="text-muted hover:text-dark transition cursor-pointer">
+                            <i class="ph ph-x text-xl"></i>
+                        </button>
+                    </div>
+
+                    <form @submit.prevent="open = false">
+                        <div class="p-6 space-y-4">
+                            <div>
+                                <label for="edit_nama_kategori" class="block text-sm font-semibold text-dark mb-1">Nama
+                                    Kategori</label>
+                                <input type="text" id="edit_nama_kategori" x-model="name" required
+                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                            </div>
+                            <div>
+                                <label for="edit_tipe_kategori"
+                                    class="block text-sm font-semibold text-dark mb-1">Tipe</label>
+                                <div class="relative">
+                                    <select id="edit_tipe_kategori" x-model="type" required
+                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
+                                        <option value="hewan">Hewan</option>
+                                        <option value="produk">Produk</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
+                                        <i class="ph ph-caret-down"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                            <button type="button" @click="open = false"
+                                class="px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition cursor-pointer">
+                                Batal
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 border border-blue-600 rounded-md text-sm font-semibold text-white hover:bg-blue-700 transition shadow-sm cursor-pointer">
+                                Update Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div x-data="{ open: false }" @open-modal-delete.window="open = true" x-show="open"
+                class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
+                <!-- Overlay -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
+                    @click="open = false"></div>
+
+                <!-- Modal Content -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-sm overflow-hidden text-center">
+
+                    <div class="p-6 pt-8">
+                        <div
+                            class="w-16 h-16 bg-red-100 text-red-600 rounded-md flex items-center justify-center text-3xl mx-auto mb-4">
+                            <i class="ph ph-warning-circle"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Hapus Kategori?</h3>
+                        <p class="text-sm text-muted px-4">Aksi ini tidak dapat dibatalkan. Data kategori ini akan dihapus
+                            secara permanen dari sistem.</p>
                     </div>
 
-                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-                        <button type="button" @click="editModalOpen = false"
-                            class="px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition">
+                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-3">
+                        <button type="button" @click="open = false"
+                            class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition cursor-pointer">
                             Batal
                         </button>
-                        <button type="submit"
-                            class="px-4 py-2 bg-blue-600 border border-blue-600 rounded-md text-sm font-semibold text-white hover:bg-blue-700 transition shadow-sm">
-                            Update Data
+                        <button type="button" @click="open = false"
+                            class="flex-1 px-4 py-2 bg-red-600 border border-red-600 rounded-md text-sm font-semibold text-white hover:bg-red-700 transition shadow-sm cursor-pointer">
+                            Ya, Hapus
                         </button>
                     </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Delete Modal -->
-        <div x-show="deleteModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0" x-cloak>
-            <!-- Overlay -->
-            <div x-show="deleteModalOpen" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm"
-                @click="deleteModalOpen = false"></div>
-
-            <!-- Modal Content -->
-            <div x-show="deleteModalOpen" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-sm overflow-hidden text-center">
-
-                <div class="p-6 pt-8">
-                    <div
-                        class="w-16 h-16 bg-red-100 text-red-600 rounded-md flex items-center justify-center text-3xl mx-auto mb-4">
-                        <i class="ph ph-warning-circle"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark mb-2">Hapus Kategori?</h3>
-                    <p class="text-sm text-muted">Aksi ini tidak dapat dibatalkan. Data kategori ini akan dihapus
-                        secara permanen dari sistem.</p>
-                </div>
-
-                <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-3">
-                    <button type="button" @click="deleteModalOpen = false"
-                        class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition">
-                        Batal
-                    </button>
-                    <button type="button" @click="deleteModalOpen = false"
-                        class="flex-1 px-4 py-2 bg-red-600 border border-red-600 rounded-md text-sm font-semibold text-white hover:bg-red-700 transition shadow-sm">
-                        Ya, Hapus
-                    </button>
                 </div>
             </div>
-        </div>
-
+        @endpush
     </div>
-
 </x-admin-template>
