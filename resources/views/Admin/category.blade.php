@@ -26,8 +26,42 @@
         </div>
     </div>
 
+    {{-- Flash Alerts --}}
+    @if (session('success') || session('error') || $errors->any())
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+            class="mb-6 rounded-md px-4 py-3 flex items-start gap-3 shadow-sm border
+                {{ session('success') ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800' }}">
+            <i
+                class="{{ session('success') ? 'ph ph-check-circle text-emerald-500' : 'ph ph-warning-circle text-red-500' }} text-xl mt-0.5 shrink-0"></i>
+            <div class="flex-1 text-sm font-medium">
+                @if (session('success'))
+                    {{ session('success') }}
+                @elseif(session('error'))
+                    {{ session('error') }}
+                @else
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                @endif
+            </div>
+            <button @click="show = false"
+                class="text-current opacity-60 hover:opacity-100 transition cursor-pointer shrink-0">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+    @endif
+
     <!-- Alpine state for filter UI only -->
-    <div x-data="{ search: '{{ $search }}', tipe: '{{ $tipe ?? 'semua' }}', sort: '{{ $sort ?? 'terbaru' }}' }">
+    <div x-data="{
+        search: '{{ $search }}',
+        tipe: '{{ $tipe ?? 'semua' }}',
+        sort: '{{ $sort ?? 'terbaru' }}',
+        addOpen: {{ $errors->any() && old('_form') === 'add' ? 'true' : 'false' }},
+        editOpen: {{ $errors->any() && old('_form') === 'edit' ? 'true' : 'false' }},
+    }">
 
         <!-- Toolbar -->
         <form method="GET" action="{{ route('admin.category') }}"
@@ -252,7 +286,7 @@
 
         @push('modals')
             <!-- Add Data Modal -->
-            <div x-data="{ open: false }" @open-modal-add.window="open = true" x-show="open"
+            <div x-data="{ open: {{ $errors->any() && old('_form') === 'add' ? 'true' : 'false' }} }" @open-modal-add.window="open = true" x-show="open"
                 class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
                 <!-- Overlay -->
                 <div x-show="open" x-transition:enter="transition ease-out duration-300"
@@ -277,30 +311,43 @@
                         </button>
                     </div>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ route('admin.category.store') }}">
                         @csrf
+                        <input type="hidden" name="_form" value="add">
                         <div class="p-6 space-y-4">
                             <div>
                                 <label for="add_nama" class="block text-sm font-semibold text-dark mb-1">Nama
                                     Kategori</label>
-                                <input type="text" id="add_nama" name="nama" placeholder="Masukkan nama kategori"
-                                    required
-                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                <input type="text" id="add_nama" name="nama"
+                                    value="{{ old('_form') === 'add' ? old('nama') : '' }}"
+                                    placeholder="Masukkan nama kategori" required
+                                    class="w-full px-3 py-2 border {{ $errors->has('nama') && old('_form') === 'add' ? 'border-red-400 focus:ring-red-400 focus:border-red-400' : 'border-slate-200 focus:ring-primary focus:border-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                @if ($errors->has('nama') && old('_form') === 'add')
+                                    <p class="text-red-500 text-xs mt-1">{{ $errors->first('nama') }}</p>
+                                @endif
                             </div>
                             <div>
                                 <label for="add_tipe" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
                                 <div class="relative">
                                     <select id="add_tipe" name="tipe" required
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
-                                        <option value="" disabled selected>Pilih tipe kategori</option>
-                                        <option value="hewan">Hewan</option>
-                                        <option value="produk">Produk</option>
+                                        class="w-full px-3 py-2 border {{ $errors->has('tipe') && old('_form') === 'add' ? 'border-red-400 focus:ring-red-400 focus:border-red-400' : 'border-slate-200 focus:ring-primary focus:border-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
+                                        <option value="" disabled {{ old('tipe') ? '' : 'selected' }}>Pilih tipe
+                                            kategori</option>
+                                        <option value="hewan"
+                                            {{ old('_form') === 'add' && old('tipe') === 'hewan' ? 'selected' : '' }}>Hewan
+                                        </option>
+                                        <option value="produk"
+                                            {{ old('_form') === 'add' && old('tipe') === 'produk' ? 'selected' : '' }}>
+                                            Produk</option>
                                     </select>
                                     <div
                                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
                                         <i class="ph ph-caret-down"></i>
                                     </div>
                                 </div>
+                                @if ($errors->has('tipe') && old('_form') === 'add')
+                                    <p class="text-red-500 text-xs mt-1">{{ $errors->first('tipe') }}</p>
+                                @endif
                             </div>
                         </div>
 
@@ -319,7 +366,7 @@
             </div>
 
             <!-- Edit Data Modal -->
-            <div x-data="{ open: false, id: null, nama: '', tipe: '' }"
+            <div x-data="{ open: {{ $errors->any() && old('_form') === 'edit' ? 'true' : 'false' }}, id: '{{ old('_id') }}', nama: '{{ addslashes(old('nama', '')) }}', tipe: '{{ old('tipe', '') }}' }"
                 @open-modal-edit.window="open = true; id = $event.detail.id; nama = $event.detail.nama; tipe = $event.detail.tipe"
                 x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
                 <!-- Overlay -->
@@ -348,18 +395,23 @@
                     <form method="POST" :action="`{{ url('admin/category') }}/${id}`">
                         @csrf
                         @method('PUT')
+                        <input type="hidden" name="_form" value="edit">
+                        <input type="hidden" name="_id" :value="id">
                         <div class="p-6 space-y-4">
                             <div>
                                 <label for="edit_nama" class="block text-sm font-semibold text-dark mb-1">Nama
                                     Kategori</label>
                                 <input type="text" id="edit_nama" name="nama" x-model="nama" required
-                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                    class="w-full px-3 py-2 border {{ $errors->has('nama') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400 focus:border-red-400' : 'border-slate-200 focus:ring-primary focus:border-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                @if ($errors->has('nama') && old('_form') === 'edit')
+                                    <p class="text-red-500 text-xs mt-1">{{ $errors->first('nama') }}</p>
+                                @endif
                             </div>
                             <div>
                                 <label for="edit_tipe" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
                                 <div class="relative">
                                     <select id="edit_tipe" name="tipe" x-model="tipe" required
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
+                                        class="w-full px-3 py-2 border {{ $errors->has('tipe') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400 focus:border-red-400' : 'border-slate-200 focus:ring-primary focus:border-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
                                         <option value="hewan">Hewan</option>
                                         <option value="produk">Produk</option>
                                     </select>
@@ -368,6 +420,9 @@
                                         <i class="ph ph-caret-down"></i>
                                     </div>
                                 </div>
+                                @if ($errors->has('tipe') && old('_form') === 'edit')
+                                    <p class="text-red-500 text-xs mt-1">{{ $errors->first('tipe') }}</p>
+                                @endif
                             </div>
                         </div>
 

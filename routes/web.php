@@ -17,3 +17,6 @@ Route::get('/admin', function () {
 })->name('admin');
 
 Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category');
+Route::post('/admin/category', [CategoryController::class, 'store'])->name('admin.category.store');
+Route::put('/admin/category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
+Route::delete('/admin/category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
