@@ -26,14 +26,12 @@
         </div>
     </div>
 
-    <div x-data="{
-        search: '',
-        filterType: 'semua',
-        sortTime: 'terbaru',
-    }">
+    <!-- Alpine state for filter UI only -->
+    <div x-data="{ search: '{{ $search }}', tipe: '{{ $tipe ?? 'semua' }}', sort: '{{ $sort ?? 'terbaru' }}' }">
 
         <!-- Toolbar -->
-        <div class="bg-white rounded-md shadow-sm border border-slate-100 p-4 mb-6" data-aos="fade-up">
+        <form method="GET" action="{{ route('admin.category') }}"
+            class="bg-white rounded-md shadow-sm border border-slate-100 p-4 mb-6" data-aos="fade-up">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
 
                 <!-- Search & Filters -->
@@ -43,13 +41,14 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="ph ph-magnifying-glass text-muted"></i>
                         </div>
-                        <input type="text" x-model="search" placeholder="Cari nama kategori..."
+                        <input type="text" name="search" x-model="search" placeholder="Cari nama kategori..."
+                            value="{{ $search }}"
                             class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-md leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition duration-150 ease-in-out sm:text-sm">
                     </div>
 
                     <!-- Type Filter -->
                     <div class="w-full sm:w-auto relative">
-                        <select x-model="filterType"
+                        <select name="tipe" x-model="tipe" @change="$el.form.submit()"
                             class="block w-full pl-3 pr-10 py-2 text-base border-slate-200 bg-slate-50 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition duration-150 ease-in-out appearance-none">
                             <option value="semua">Semua Tipe</option>
                             <option value="hewan">Hewan</option>
@@ -62,7 +61,7 @@
 
                     <!-- Sort Filter -->
                     <div class="w-full sm:w-auto relative">
-                        <select x-model="sortTime"
+                        <select name="sort" x-model="sort" @change="$el.form.submit()"
                             class="block w-full pl-3 pr-10 py-2 text-base border-slate-200 bg-slate-50 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition duration-150 ease-in-out appearance-none">
                             <option value="terbaru">Terbaru</option>
                             <option value="terlama">Terlama</option>
@@ -71,18 +70,27 @@
                             <i class="ph ph-caret-down"></i>
                         </div>
                     </div>
+
+                    <!-- Search Submit Button (visible on mobile or use Enter) -->
+                    @if ($search)
+                        <a href="{{ route('admin.category', ['tipe' => $tipe, 'sort' => $sort]) }}"
+                            class="text-sm text-muted hover:text-red-500 transition flex items-center gap-1 cursor-pointer whitespace-nowrap">
+                            <i class="ph ph-x-circle"></i>
+                            Hapus Pencarian
+                        </a>
+                    @endif
                 </div>
 
                 <!-- Add Button -->
                 <div class="flex-shrink-0 w-full lg:w-auto">
-                    <button @click="$dispatch('open-modal-add')"
+                    <button type="button" @click="$dispatch('open-modal-add')"
                         class="w-full lg:w-auto px-4 py-2 bg-primary text-white text-sm font-semibold rounded-md hover:bg-emerald-600 transition flex items-center justify-center gap-2 shadow-sm cursor-pointer">
                         <i class="ph ph-plus text-lg"></i>
                         Tambah Data
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
 
         <!-- Table Container -->
         <div class="bg-white rounded-md shadow-sm border border-slate-100 overflow-hidden mb-6" data-aos="fade-up"
@@ -98,145 +106,146 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-slate-100 text-slate-700">
-                        <!-- Static Row 1 -->
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-4 text-center text-muted font-medium">1</td>
-                            <td class="p-4">
-                                <span class="font-semibold text-dark">Kucing</span>
-                            </td>
-                            <td class="p-4">
-                                <span
-                                    class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-md text-xs font-semibold border border-amber-100">Hewan</span>
-                            </td>
-                            <td class="p-4">
-                                <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
-                                        title="Edit">
-                                        <i class="ph ph-pencil-simple"></i>
-                                    </button>
-                                    <button @click="$dispatch('open-modal-delete')"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
-                                        title="Hapus">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Static Row 2 -->
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-4 text-center text-muted font-medium">2</td>
-                            <td class="p-4">
-                                <span class="font-semibold text-dark">Anjing</span>
-                            </td>
-                            <td class="p-4">
-                                <span
-                                    class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-md text-xs font-semibold border border-amber-100">Hewan</span>
-                            </td>
-                            <td class="p-4">
-                                <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
-                                        title="Edit">
-                                        <i class="ph ph-pencil-simple"></i>
-                                    </button>
-                                    <button @click="$dispatch('open-modal-delete')"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
-                                        title="Hapus">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Static Row 3 -->
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-4 text-center text-muted font-medium">3</td>
-                            <td class="p-4">
-                                <span class="font-semibold text-dark">Makanan Kering</span>
-                            </td>
-                            <td class="p-4">
-                                <span
-                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-md text-xs font-semibold border border-primary/20">Produk</span>
-                            </td>
-                            <td class="p-4">
-                                <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
-                                        title="Edit">
-                                        <i class="ph ph-pencil-simple"></i>
-                                    </button>
-                                    <button @click="$dispatch('open-modal-delete')"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
-                                        title="Hapus">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Static Row 4 -->
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-4 text-center text-muted font-medium">4</td>
-                            <td class="p-4">
-                                <span class="font-semibold text-dark">Vitamin & Obat</span>
-                            </td>
-                            <td class="p-4">
-                                <span
-                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-md text-xs font-semibold border border-primary/20">Produk</span>
-                            </td>
-                            <td class="p-4">
-                                <div class="flex items-center justify-center gap-2 text-lg">
-                                    <button @click="$dispatch('open-modal-edit', { name: 'Kucing', type: 'hewan' })"
-                                        class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
-                                        title="Edit">
-                                        <i class="ph ph-pencil-simple"></i>
-                                    </button>
-                                    <button @click="$dispatch('open-modal-delete')"
-                                        class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
-                                        title="Hapus">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
+                        @forelse($categories as $category)
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="p-4 text-center text-muted font-medium">
+                                    {{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}
+                                </td>
+                                <td class="p-4">
+                                    <span class="font-semibold text-dark">{{ $category->nama }}</span>
+                                </td>
+                                <td class="p-4">
+                                    @if ($category->tipe === 'hewan')
+                                        <span
+                                            class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-md text-xs font-semibold border border-amber-100">Hewan</span>
+                                    @else
+                                        <span
+                                            class="px-2.5 py-1 bg-primary/10 text-primary rounded-md text-xs font-semibold border border-primary/20">Produk</span>
+                                    @endif
+                                </td>
+                                <td class="p-4">
+                                    <div class="flex items-center justify-center gap-2 text-lg">
+                                        <button
+                                            @click="$dispatch('open-modal-edit', { id: {{ $category->id }}, nama: '{{ addslashes($category->nama) }}', tipe: '{{ $category->tipe }}' })"
+                                            class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
+                                            title="Edit">
+                                            <i class="ph ph-pencil-simple"></i>
+                                        </button>
+                                        <button
+                                            @click="$dispatch('open-modal-delete', { id: {{ $category->id }}, nama: '{{ addslashes($category->nama) }}' })"
+                                            class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
+                                            title="Hapus">
+                                            <i class="ph ph-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="p-8 text-center text-muted">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <i class="ph ph-folder-open text-4xl text-slate-300"></i>
+                                        <p class="font-semibold">Tidak ada data kategori ditemukan.</p>
+                                        @if ($search || ($tipe && $tipe !== 'semua'))
+                                            <p class="text-xs">Coba ubah filter pencarian Anda.</p>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <!-- Pagination -->
-            <div
-                class="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50">
-                <div class="text-sm text-muted text-center sm:text-left">
-                    Menampilkan <span class="font-semibold text-dark">1</span> - <span
-                        class="font-semibold text-dark">4</span> dari <span class="font-semibold text-dark">12</span>
-                </div>
-                <div class="flex items-center gap-1">
-                    <button
-                        class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                        disabled>
-                        <span class="hidden sm:inline">Sebelumnya</span>
-                        <i class="ph ph-caret-left sm:hidden"></i>
-                    </button>
-                    <button
-                        class="px-3 py-1.5 bg-primary text-white border border-primary rounded-md text-sm font-medium hover:bg-emerald-600 transition shadow-sm cursor-pointer">
-                        1
-                    </button>
-                    <button
-                        class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition cursor-pointer">
-                        2
-                    </button>
-                    <button
-                        class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition cursor-pointer">
-                        3
-                    </button>
-                    <button
-                        class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-dark bg-white hover:bg-slate-50 transition cursor-pointer">
-                        <span class="hidden sm:inline">Selanjutnya</span>
-                        <i class="ph ph-caret-right sm:hidden"></i>
-                    </button>
+            <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="text-sm text-muted text-center sm:text-left">
+                        Menampilkan
+                        <span class="font-semibold text-dark">{{ $categories->firstItem() ?? 0 }}</span> -
+                        <span class="font-semibold text-dark">{{ $categories->lastItem() ?? 0 }}</span>
+                        dari <span class="font-semibold text-dark">{{ $categories->total() }}</span> data
+                    </div>
+                    <div class="flex items-center gap-1 flex-wrap justify-center">
+                        {{-- Previous Button --}}
+                        @if ($categories->onFirstPage())
+                            <span
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-slate-300 bg-slate-50 cursor-not-allowed">
+                                <span class="hidden sm:inline">Sebelumnya</span>
+                                <i class="ph ph-caret-left sm:hidden"></i>
+                            </span>
+                        @else
+                            <a href="{{ $categories->previousPageUrl() }}"
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition cursor-pointer">
+                                <span class="hidden sm:inline">Sebelumnya</span>
+                                <i class="ph ph-caret-left sm:hidden"></i>
+                            </a>
+                        @endif
+
+                        {{-- Page Numbers with smart ellipsis --}}
+                        @php
+                            $currentPage = $categories->currentPage();
+                            $lastPage = $categories->lastPage();
+                            $delta = 1; // pages around current
+                            $pages = [];
+
+                            // Always show first page
+                            $pages[] = 1;
+
+                            // Pages around current
+                            for (
+                                $i = max(2, $currentPage - $delta);
+                                $i <= min($lastPage - 1, $currentPage + $delta);
+                                $i++
+                            ) {
+                                $pages[] = $i;
+                            }
+
+                            // Always show last page
+                            if ($lastPage > 1) {
+                                $pages[] = $lastPage;
+                            }
+
+                            $pages = array_unique($pages);
+                            sort($pages);
+                        @endphp
+
+                        @php $prev = null; @endphp
+                        @foreach ($pages as $page)
+                            @if ($prev !== null && $page - $prev > 1)
+                                <span class="px-2 py-1.5 text-sm text-muted">...</span>
+                            @endif
+
+                            @if ($page === $currentPage)
+                                <span
+                                    class="px-3 py-1.5 bg-primary text-white border border-primary rounded-md text-sm font-medium shadow-sm">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $categories->url($page) }}"
+                                    class="px-3 py-1.5 border border-slate-200 bg-white rounded-md text-sm text-dark hover:bg-slate-50 transition cursor-pointer">
+                                    {{ $page }}
+                                </a>
+                            @endif
+
+                            @php $prev = $page; @endphp
+                        @endforeach
+
+                        {{-- Next Button --}}
+                        @if ($categories->hasMorePages())
+                            <a href="{{ $categories->nextPageUrl() }}"
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-dark bg-white hover:bg-slate-50 transition cursor-pointer">
+                                <span class="hidden sm:inline">Selanjutnya</span>
+                                <i class="ph ph-caret-right sm:hidden"></i>
+                            </a>
+                        @else
+                            <span
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-slate-300 bg-slate-50 cursor-not-allowed">
+                                <span class="hidden sm:inline">Selanjutnya</span>
+                                <i class="ph ph-caret-right sm:hidden"></i>
+                            </span>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -268,18 +277,20 @@
                         </button>
                     </div>
 
-                    <form @submit.prevent="open = false">
+                    <form method="POST" action="">
+                        @csrf
                         <div class="p-6 space-y-4">
                             <div>
-                                <label for="nama_kategori" class="block text-sm font-semibold text-dark mb-1">Nama
+                                <label for="add_nama" class="block text-sm font-semibold text-dark mb-1">Nama
                                     Kategori</label>
-                                <input type="text" id="nama_kategori" placeholder="Masukkan nama kategori" required
+                                <input type="text" id="add_nama" name="nama" placeholder="Masukkan nama kategori"
+                                    required
                                     class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
                             </div>
                             <div>
-                                <label for="tipe_kategori" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
+                                <label for="add_tipe" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
                                 <div class="relative">
-                                    <select id="tipe_kategori" required
+                                    <select id="add_tipe" name="tipe" required
                                         class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
                                         <option value="" disabled selected>Pilih tipe kategori</option>
                                         <option value="hewan">Hewan</option>
@@ -308,9 +319,9 @@
             </div>
 
             <!-- Edit Data Modal -->
-            <div x-data="{ open: false, name: '', type: '' }"
-                @open-modal-edit.window="open = true; name = $event.detail.name; type = $event.detail.type" x-show="open"
-                class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
+            <div x-data="{ open: false, id: null, nama: '', tipe: '' }"
+                @open-modal-edit.window="open = true; id = $event.detail.id; nama = $event.detail.nama; tipe = $event.detail.tipe"
+                x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
                 <!-- Overlay -->
                 <div x-show="open" x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
@@ -334,19 +345,20 @@
                         </button>
                     </div>
 
-                    <form @submit.prevent="open = false">
+                    <form method="POST" :action="`{{ url('admin/category') }}/${id}`">
+                        @csrf
+                        @method('PUT')
                         <div class="p-6 space-y-4">
                             <div>
-                                <label for="edit_nama_kategori" class="block text-sm font-semibold text-dark mb-1">Nama
+                                <label for="edit_nama" class="block text-sm font-semibold text-dark mb-1">Nama
                                     Kategori</label>
-                                <input type="text" id="edit_nama_kategori" x-model="name" required
+                                <input type="text" id="edit_nama" name="nama" x-model="nama" required
                                     class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
                             </div>
                             <div>
-                                <label for="edit_tipe_kategori"
-                                    class="block text-sm font-semibold text-dark mb-1">Tipe</label>
+                                <label for="edit_tipe" class="block text-sm font-semibold text-dark mb-1">Tipe</label>
                                 <div class="relative">
-                                    <select id="edit_tipe_kategori" x-model="type" required
+                                    <select id="edit_tipe" name="tipe" x-model="tipe" required
                                         class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition appearance-none bg-white cursor-pointer text-slate-700">
                                         <option value="hewan">Hewan</option>
                                         <option value="produk">Produk</option>
@@ -374,7 +386,8 @@
             </div>
 
             <!-- Delete Modal -->
-            <div x-data="{ open: false }" @open-modal-delete.window="open = true" x-show="open"
+            <div x-data="{ open: false, id: null, nama: '' }"
+                @open-modal-delete.window="open = true; id = $event.detail.id; nama = $event.detail.nama" x-show="open"
                 class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
                 <!-- Overlay -->
                 <div x-show="open" x-transition:enter="transition ease-out duration-300"
@@ -398,8 +411,8 @@
                             <i class="ph ph-warning-circle"></i>
                         </div>
                         <h3 class="text-xl font-bold text-dark mb-2">Hapus Kategori?</h3>
-                        <p class="text-sm text-muted px-4">Aksi ini tidak dapat dibatalkan. Data kategori ini akan dihapus
-                            secara permanen dari sistem.</p>
+                        <p class="text-sm text-muted px-4">Anda akan menghapus kategori <strong x-text="nama"
+                                class="text-dark"></strong>. Aksi ini tidak dapat dibatalkan.</p>
                     </div>
 
                     <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-3">
@@ -407,10 +420,14 @@
                             class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition cursor-pointer">
                             Batal
                         </button>
-                        <button type="button" @click="open = false"
-                            class="flex-1 px-4 py-2 bg-red-600 border border-red-600 rounded-md text-sm font-semibold text-white hover:bg-red-700 transition shadow-sm cursor-pointer">
-                            Ya, Hapus
-                        </button>
+                        <form method="POST" :action="`{{ url('admin/category') }}/${id}`" class="flex-1">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="w-full px-4 py-2 bg-red-600 border border-red-600 rounded-md text-sm font-semibold text-white hover:bg-red-700 transition shadow-sm cursor-pointer">
+                                Ya, Hapus
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

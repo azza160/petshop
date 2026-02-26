@@ -36,6 +36,6 @@ class Product extends Model
     // Relasi ke Category
     public function category()
     {
-        return $this->belongsTo(Category::class)->where('type', 'product');
+        return $this->belongsTo(Category::class)->where('tipe', 'produk');
     }
 }

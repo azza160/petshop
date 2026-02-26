@@ -37,7 +37,7 @@ class Animal extends Model
      // Relasi ke Category
     public function category()
     {
-        return $this->belongsTo(Category::class)->where('type', 'animal');
+        return $this->belongsTo(Category::class)->where('tipe', 'hewan');
     }
 
 

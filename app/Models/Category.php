@@ -10,20 +10,20 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'type',
+        'nama',
+        'tipe',
     ];
 
     // Relasi ke Animals
     public function animals()
     {
-        return $this->hasMany(Animal::class)->where('type', 'animal');
+        return $this->hasMany(Animal::class)->where('tipe', 'hewan');
     }
 
     // Relasi ke Products
     public function products()
     {
-        return $this->hasMany(Product::class)->where('type', 'product');
+        return $this->hasMany(Product::class)->where('tipe', 'produk');
     }
 
 }
