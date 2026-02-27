@@ -13,14 +13,18 @@ class Animal extends Model
     protected $keyType = 'string'; // ULID string
 
     protected $fillable = [
-        'name',
-        'age',
+        'nama',
+        'umur',
         'category_id',
-        'description',
-        'price',
-        'stock',
+        'deskripsi',
+        'harga',
+        'stok',
+        'isFavorite',
         'photo',
-        'isFavorite'
+        'jenis_kelamin',
+        'sudah_steril',
+        'asal_hewan',
+        'berat'
     ];
 
      // Generate ULID otomatis saat creating

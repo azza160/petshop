@@ -24,7 +24,7 @@
 
 <body
     class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary selection:text-white flex h-screen overflow-hidden"
-    x-data="{ sidebarOpen: true }">
+    x-data="{ sidebarOpen: false }">
 
     <!-- Mobile Overlay -->
     <div x-show="sidebarOpen" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 sm:hidden"

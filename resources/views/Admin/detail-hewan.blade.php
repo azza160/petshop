@@ -46,30 +46,7 @@
             </div>
         </div>
 
-        @php
-            // Dummy Data for Detail
-            $hewan = (object) [
-                'nama' => 'Milo (Persia)',
-                'photo' =>
-                    'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'umur' => 12,
-                'berat' => 4.5,
-                'category' => 'Kucing',
-                'deskripsi' =>
-                    "Milo adalah seekor kucing persia asli yang sangat lucu, lincah, dan memiliki bulu yang lebat. Milo sangat suka bermain dengan mainan bulu dan sangat bersahabat dengan anak-anak. Kucing ini sudah mendapatkan vaksinasi lengkap dan rutin diperiksa oleh dokter hewan setiap bulannya. Makanan yang biasa diberikan adalah makanan premium khusus kucing indoor.\n\nSangat cocok untuk dijadikan teman bermain di rumah karena perilakunya yang tenang dan tidak merusak barang. Milo juga sudah diajarkan untuk menggunakan litter box dengan baik sejak kecil.",
-                'harga' => 1500000,
-                'stok' => 1,
-                'isFavorite' => true,
-                'jenis_kelamin' => 'jantan',
-                'sudah_steril' => true,
-                'asal_hewan' => 'lokal',
-                'gallery' => [
-                    'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-                    'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-                    'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-                ],
-            ];
-        @endphp
+        <!-- Detail section for: {{ $hewan->nama }} -->
 
         <!-- Main Content -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -99,14 +76,14 @@
                 </div>
 
                 <!-- Gallery Photos -->
-                @if (count($hewan->gallery) > 0)
+                @if ($hewan->fotoHewan && count($hewan->fotoHewan) > 0)
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
                         <h3 class="text-sm font-bold text-dark mb-3">Galeri Foto Lainnya</h3>
                         <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2">
-                            @foreach ($hewan->gallery as $img)
+                            @foreach ($hewan->fotoHewan as $img)
                                 <div class="aspect-square rounded-md overflow-hidden border border-slate-200 cursor-pointer relative group"
-                                    @click="$dispatch('open-global-image', { src: '{{ $img }}' })">
-                                    <img src="{{ $img }}"
+                                    @click="$dispatch('open-global-image', { src: '{{ $img->path_foto }}' })">
+                                    <img src="{{ $img->path_foto }}"
                                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                                     <div
                                         class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -132,7 +109,7 @@
                         <div class="flex flex-wrap items-center gap-2 mb-4">
                             <span
                                 class="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
-                                <i class="ph-fill ph-tag"></i> {{ $hewan->category }}
+                                <i class="ph-fill ph-tag"></i> {{ $hewan->category->nama ?? '-' }}
                             </span>
                             @if ($hewan->jenis_kelamin === 'jantan')
                                 <span
@@ -152,7 +129,7 @@
                             </span>
                             <span
                                 class="px-3 py-1 bg-amber-50 text-amber-600 border border-amber-100 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5 capitalize">
-                                <i class="ph ph-map-pin"></i> {{ str_replace('_', ' ', $hewan->asal_hewan) }}
+                                <i class="ph ph-map-pin"></i> {{ str_replace('_', ' ', $hewan->asal_hewan) ?? '-' }}
                             </span>
                         </div>
 
