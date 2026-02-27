@@ -40,5 +40,10 @@ class Animal extends Model
         return $this->belongsTo(Category::class)->where('tipe', 'hewan');
     }
 
+      public function fotoHewan()
+    {
+        return $this->hasMany(FotoHewan::class, 'hewan_id');
+    }
+
 
 }
