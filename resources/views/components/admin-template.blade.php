@@ -93,9 +93,12 @@
 
                 <!-- Nav Item: Data Hewan -->
                 <li>
-                    <a href="#"
-                        class="flex items-center gap-3 px-3 py-2.5 rounded-md text-muted hover:text-dark hover:bg-slate-100 transition-all duration-200 group relative"
+                    <a href="{{ route('admin.hewan') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group {{ request()->routeIs('admin.hewan') || request()->routeIs('admin.hewan.detail') ? 'text-primary bg-primary/10 relative overflow-hidden' : 'text-muted hover:text-dark hover:bg-slate-100' }}"
                         title="Data Hewan">
+                        @if (request()->routeIs('admin.hewan') || request()->routeIs('admin.hewan.detail'))
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-md"></div>
+                        @endif
                         <i
                             class="ph ph-paw-print text-xl shrink-0 transition-transform group-hover:scale-110 group-hover:text-emerald-500"></i>
                         <span class="font-medium whitespace-nowrap transition-opacity duration-300"
@@ -303,6 +306,26 @@
     </script>
 
     @stack('modals')
+
+    <!-- Global Image Modal -->
+    <div x-data="{
+        open: false,
+        src: ''
+    }" @open-global-image.window="src = $event.detail.src; open = true" x-show="open"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 bg-slate-900/90 backdrop-blur-md"
+        x-cloak>
+
+        <button @click="open = false"
+            class="absolute top-4 right-4 sm:top-8 sm:right-8 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full w-12 h-12 flex items-center justify-center transition backdrop-blur z-[10000]">
+            <i class="ph ph-x text-2xl font-bold"></i>
+        </button>
+
+        <img :src="src" @click.away="open = false"
+            class="max-w-full max-h-full object-contain rounded-md shadow-2xl ring-1 ring-white/10">
+    </div>
 </body>
 
 </html>

@@ -1,0 +1,233 @@
+<x-admin-template>
+    <x-slot:title>Detail Hewan - Milo</x-slot>
+    <x-slot:headerTitle>Detail Hewan</x-slot>
+
+    <div x-data="{}">
+
+        <!-- Page Header & Breadcrumb -->
+        <div class="mb-8" data-aos="fade-down">
+            <!-- Breadcrumb -->
+            <nav class="flex text-sm text-muted font-medium mb-6" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="{{ route('admin') }}"
+                            class="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
+                            <i class="ph ph-house"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="ph ph-caret-right text-xs"></i>
+                            <a href="{{ route('admin.hewan') }}"
+                                class="ml-1 md:ml-2 hover:text-primary transition-colors cursor-pointer">
+                                Hewan
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="ph ph-caret-right text-xs"></i>
+                            <span class="ml-1 md:ml-2 text-slate-800">Detail Info</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Title & Back Button -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <a href="{{ route('admin.hewan') }}"
+                    class="group flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-primary hover:border-primary hover:shadow-md transition-all duration-300 w-fit cursor-pointer">
+                    <i class="ph ph-arrow-left text-lg transition-transform group-hover:-translate-x-1"></i>
+                    <span class="font-semibold text-sm">Kembali</span>
+                </a>
+                <div class="h-8 w-px bg-slate-200 hidden sm:block mx-1"></div>
+                <h2 class="text-3xl font-extrabold text-dark tracking-tight">Detail Informasi Hewan</h2>
+            </div>
+        </div>
+
+        @php
+            // Dummy Data for Detail
+            $hewan = (object) [
+                'nama' => 'Milo (Persia)',
+                'photo' =>
+                    'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                'umur' => 12,
+                'berat' => 4.5,
+                'category' => 'Kucing',
+                'deskripsi' =>
+                    "Milo adalah seekor kucing persia asli yang sangat lucu, lincah, dan memiliki bulu yang lebat. Milo sangat suka bermain dengan mainan bulu dan sangat bersahabat dengan anak-anak. Kucing ini sudah mendapatkan vaksinasi lengkap dan rutin diperiksa oleh dokter hewan setiap bulannya. Makanan yang biasa diberikan adalah makanan premium khusus kucing indoor.\n\nSangat cocok untuk dijadikan teman bermain di rumah karena perilakunya yang tenang dan tidak merusak barang. Milo juga sudah diajarkan untuk menggunakan litter box dengan baik sejak kecil.",
+                'harga' => 1500000,
+                'stok' => 1,
+                'isFavorite' => true,
+                'jenis_kelamin' => 'jantan',
+                'sudah_steril' => true,
+                'asal_hewan' => 'lokal',
+                'gallery' => [
+                    'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                    'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                    'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                ],
+            ];
+        @endphp
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+
+            <!-- Left Column: Media (Photos) -->
+            <div class="lg:col-span-5 space-y-4" data-aos="fade-right">
+                <!-- Main Photo -->
+                <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-100 relative group overflow-hidden">
+                    @if ($hewan->isFavorite)
+                        <div
+                            class="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur text-red-500 w-10 h-10 flex items-center justify-center rounded-full shadow-md">
+                            <i class="ph-fill ph-heart text-xl animate-pulse"></i>
+                        </div>
+                    @endif
+                    <div class="aspect-square rounded-lg overflow-hidden cursor-pointer"
+                        @click="$dispatch('open-global-image', { src: '{{ $hewan->photo }}' })">
+                        <img src="{{ $hewan->photo }}" alt="{{ $hewan->nama }}"
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/opacity-0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                            <div
+                                class="bg-white/80 backdrop-blur-sm text-dark px-3 py-1.5 rounded-full text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0 gap-2 flex items-center shadow-lg">
+                                <i class="ph ph-arrows-out"></i> Perbesar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Photos -->
+                @if (count($hewan->gallery) > 0)
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                        <h3 class="text-sm font-bold text-dark mb-3">Galeri Foto Lainnya</h3>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2">
+                            @foreach ($hewan->gallery as $img)
+                                <div class="aspect-square rounded-md overflow-hidden border border-slate-200 cursor-pointer relative group"
+                                    @click="$dispatch('open-global-image', { src: '{{ $img }}' })">
+                                    <img src="{{ $img }}"
+                                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                    <div
+                                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <i class="ph ph-magnifying-glass-plus text-white text-xl"></i>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Right Column: Info Details -->
+            <div class="lg:col-span-7 space-y-6" data-aos="fade-left" data-aos-delay="100">
+
+                <!-- Main Info Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden relative">
+                    <!-- Color strip at top -->
+                    <div class="h-1.5 w-full bg-gradient-to-r from-primary to-emerald-400"></div>
+
+                    <div class="p-6 sm:p-8">
+                        <!-- Badges row -->
+                        <div class="flex flex-wrap items-center gap-2 mb-4">
+                            <span
+                                class="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
+                                <i class="ph-fill ph-tag"></i> {{ $hewan->category }}
+                            </span>
+                            @if ($hewan->jenis_kelamin === 'jantan')
+                                <span
+                                    class="px-3 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
+                                    <i class="ph-bold ph-gender-male font-bold"></i> Jantan
+                                </span>
+                            @else
+                                <span
+                                    class="px-3 py-1 bg-pink-50 text-pink-600 border border-pink-100 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
+                                    <i class="ph-bold ph-gender-female font-bold"></i> Betina
+                                </span>
+                            @endif
+                            <span
+                                class="px-3 py-1 {{ $hewan->sudah_steril ? 'bg-indigo-50 text-indigo-600 border-indigo-100' : 'bg-slate-100 text-slate-600 border-slate-200' }} border rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
+                                <i class="ph ph-scissors"></i>
+                                {{ $hewan->sudah_steril ? 'Sudah Steril' : 'Belum Steril' }}
+                            </span>
+                            <span
+                                class="px-3 py-1 bg-amber-50 text-amber-600 border border-amber-100 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5 capitalize">
+                                <i class="ph ph-map-pin"></i> {{ str_replace('_', ' ', $hewan->asal_hewan) }}
+                            </span>
+                        </div>
+
+                        <!-- Title & Price -->
+                        <div class="mb-6 pb-6 border-b border-slate-100">
+                            <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-2 leading-tight">{{ $hewan->nama }}
+                            </h1>
+                            <div class="text-3xl font-bold text-emerald-600 mb-2">Rp
+                                {{ number_format($hewan->harga, 0, ',', '.') }}</div>
+                            <p class="text-sm text-slate-500 flex items-center gap-1"><i
+                                    class="ph-fill ph-check-circle text-emerald-500"></i> Harga sudah termasuk pajak &
+                                dokumen relevan</p>
+                        </div>
+
+                        <!-- Specs Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                            <!-- Umur -->
+                            <div
+                                class="bg-slate-50 rounded-lg p-3 text-center border border-slate-100 hover:border-slate-200 transition-colors">
+                                <div
+                                    class="w-10 h-10 mx-auto bg-white rounded-full flex items-center justify-center text-primary mb-2 shadow-sm border border-slate-100 relative group-hover:scale-110 transition">
+                                    <i class="ph ph-calendar-blank text-xl"></i>
+                                </div>
+                                <p class="text-xs text-muted font-medium mb-0.5">Umur</p>
+                                <p class="font-bold text-dark">{{ $hewan->umur }} Bulan</p>
+                            </div>
+                            <!-- Berat -->
+                            <div
+                                class="bg-slate-50 rounded-lg p-3 text-center border border-slate-100 hover:border-slate-200 transition-colors">
+                                <div
+                                    class="w-10 h-10 mx-auto bg-white rounded-full flex items-center justify-center text-secondary mb-2 shadow-sm border border-slate-100">
+                                    <i class="ph ph-scales text-xl"></i>
+                                </div>
+                                <p class="text-xs text-muted font-medium mb-0.5">Berat</p>
+                                <p class="font-bold text-dark">{{ $hewan->berat }} Kg</p>
+                            </div>
+                            <!-- Stok -->
+                            <div
+                                class="bg-slate-50 rounded-lg p-3 text-center border border-slate-100 hover:border-slate-200 transition-colors">
+                                <div
+                                    class="w-10 h-10 mx-auto bg-white rounded-full flex items-center justify-center text-blue-500 mb-2 shadow-sm border border-slate-100">
+                                    <i class="ph ph-archive-box text-xl"></i>
+                                </div>
+                                <p class="text-xs text-muted font-medium mb-0.5">Stok</p>
+                                <p class="font-bold text-dark">{{ $hewan->stok }} Ekor</p>
+                            </div>
+                            <!-- Kondisi -->
+                            <div
+                                class="bg-slate-50 rounded-lg p-3 text-center border border-slate-100 hover:border-slate-200 transition-colors">
+                                <div
+                                    class="w-10 h-10 mx-auto bg-white rounded-full flex items-center justify-center text-indigo-500 mb-2 shadow-sm border border-slate-100">
+                                    <i class="ph ph-heartbeat text-xl"></i>
+                                </div>
+                                <p class="text-xs text-muted font-medium mb-0.5">Kondisi</p>
+                                <p class="font-bold text-dark">Sehat</p>
+                            </div>
+                        </div>
+
+                        <!-- Full Description -->
+                        <div>
+                            <h3 class="text-lg font-bold text-dark mb-3 flex items-center gap-2">
+                                <i class="ph-fill ph-article text-primary"></i>
+                                Deskripsi Hewan
+                            </h3>
+                            <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-muted leading-relaxed">
+                                {!! nl2br(e($hewan->deskripsi)) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- (Local image modal removed) -->
+
+    </div>
+</x-admin-template>
