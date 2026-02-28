@@ -3,39 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory;
-    public $incrementing = false; // ULID bukan auto increment
-    protected $keyType = 'string'; // ULID string
+    use HasFactory, HasUlids;
 
-     protected $fillable = [
-        'name',
-        'category_id',
-        'description',
-        'price',
-        'stock',
-        'photo',
-        'isFavorite'
+    protected $fillable = [
+        'nama',
+        'kategori_id',
+        'deskripsi',
+        'harga',
+        'stok',
+        'is_favorit',
+        'foto_utama',
+        'merek',
+        'tanggal_kadaluarsa',
+        'berat'
     ];
-
-     // Generate ULID otomatis saat creating
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->getKey()) {
-                $model->{$model->getKeyName()} = (string) Str::ulid();
-            }
-        });
-    }
 
     // Relasi ke Category
     public function category()
     {
-        return $this->belongsTo(Category::class)->where('tipe', 'produk');
+        return $this->belongsTo(Category::class, 'kategori_id')->where('tipe', 'produk');
+    }
+
+    public function galeri()
+    {
+        return $this->hasMany(GaleriProduk::class, 'produk_id');
     }
 }

@@ -19,6 +19,7 @@ class AnimalSeeder extends Seeder
 
         $animals = [
             [
+               
                 'nama' => 'Milo (Persia)',
                 'umur' => 12,
                 'category_id' => $kucingCategory->id,

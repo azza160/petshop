@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Animal extends Model
 {
-    use HasFactory;
-    public $incrementing = false; // ULID bukan auto increment
-    protected $keyType = 'string'; // ULID string
+    use HasFactory, HasUlids;
 
     protected $fillable = [
         'nama',
@@ -27,27 +25,14 @@ class Animal extends Model
         'berat'
     ];
 
-     // Generate ULID otomatis saat creating
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->getKey()) {
-                $model->{$model->getKeyName()} = (string) Str::ulid();
-            }
-        });
-    }
-
-     // Relasi ke Category
+    // Relasi ke Category
     public function category()
     {
         return $this->belongsTo(Category::class)->where('tipe', 'hewan');
     }
 
-      public function fotoHewan()
+    public function fotoHewan()
     {
         return $this->hasMany(FotoHewan::class, 'hewan_id');
     }
-
-
 }
