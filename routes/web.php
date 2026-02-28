@@ -22,4 +22,5 @@ Route::put('/admin/category/{category}', [CategoryController::class, 'update'])-
 Route::delete('/admin/category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 
 Route::get('/admin/hewan', [\App\Http\Controllers\AnimalController::class, 'index'])->name('admin.hewan');
+Route::post('/admin/hewan', [\App\Http\Controllers\AnimalController::class, 'store'])->name('admin.hewan.store');
 Route::get('/admin/hewan/detail/{id}', [\App\Http\Controllers\AnimalController::class, 'show'])->name('admin.hewan.detail');
