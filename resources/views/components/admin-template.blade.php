@@ -110,9 +110,12 @@
 
                 <!-- Nav Item: Data Produk -->
                 <li>
-                    <a href="#"
-                        class="flex items-center gap-3 px-3 py-2.5 rounded-md text-muted hover:text-dark hover:bg-slate-100 transition-all duration-200 group relative"
+                    <a href="{{ route('admin.product') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group {{ request()->routeIs('admin.product') || request()->routeIs('admin.product.detail') ? 'text-primary bg-primary/10 relative overflow-hidden' : 'text-muted hover:text-dark hover:bg-slate-100' }}"
                         title="Data Produk">
+                        @if (request()->routeIs('admin.product') || request()->routeIs('admin.product.detail'))
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-md"></div>
+                        @endif
                         <i
                             class="ph ph-package text-xl shrink-0 transition-transform group-hover:scale-110 group-hover:text-blue-500"></i>
                         <span class="font-medium whitespace-nowrap transition-opacity duration-300"
