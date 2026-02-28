@@ -186,7 +186,40 @@ class AnimalController extends Controller
 
             return redirect()->route('admin.hewan')->with('success', 'Data hewan berhasil diupdate!');
         } catch (\Exception $e) {
-            return redirect()->route('admin.hewan')->with('error', 'Terjadi kesalahan saat mengupdate data: ' . $e->getMessage())->withInput();
+            return redirect()->route('admin.hewan')
+                ->with('error', 'Terjadi kesalahan saat mengupdate data: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                $animal = Animal::with('fotoHewan')->findOrFail($id);
+                
+                // Delete physical local storage file for main photo
+                if ($animal->photo) {
+                    $oldPath = str_replace('/storage/', '', $animal->photo);
+                    Storage::disk('public')->delete($oldPath);
+                }
+
+                // Delete physical files for gallery photos
+                if ($animal->fotoHewan) {
+                    foreach ($animal->fotoHewan as $gallery) {
+                        $oldPath = str_replace('/storage/', '', $gallery->path_foto);
+                        Storage::disk('public')->delete($oldPath);
+                        $gallery->delete(); // also delete db record for completeness
+                    }
+                }
+
+                // Finally delete the animal record
+                $animal->delete();
+            });
+
+            return redirect()->route('admin.hewan')->with('success', 'Data hewan dan semua fotonya berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.hewan')->with('error', 'Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
         }
     }
 }

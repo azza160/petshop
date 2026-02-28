@@ -213,7 +213,8 @@
                                             title="Edit">
                                             <i class="ph ph-pencil-simple"></i>
                                         </button>
-                                        <button @click="$dispatch('open-modal-delete', {id: '{{ $hewan->id }}'})"
+                                        <button
+                                            @click="$dispatch('open-modal-delete', { id: '{{ $hewan->id }}', nama: '{{ addslashes($hewan->nama) }}' })"
                                             class="p-1.5 text-red-600 hover:text-white hover:bg-red-600 rounded-md transition cursor-pointer"
                                             title="Hapus">
                                             <i class="ph ph-trash"></i>
@@ -1027,8 +1028,13 @@
             </div>
 
             <!-- Delete Modal -->
-            <div x-data="{ open: false }" @open-modal-delete.window="open = true" x-show="open"
-                class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
+            <div x-data="{ open: false, hewanId: null, hewanNama: '' }"
+                @open-modal-delete.window="
+                    open = true;
+                    hewanId = $event.detail.id;
+                    hewanNama = $event.detail.nama;
+                "
+                x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
                 <div x-show="open" x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
@@ -1049,20 +1055,24 @@
                             <i class="ph ph-warning-circle"></i>
                         </div>
                         <h3 class="text-xl font-bold text-dark mb-2">Hapus Hewan?</h3>
-                        <p class="text-sm text-muted px-4">Anda akan menghapus data hewan ini. Aksi ini tidak dapat
-                            dibatalkan.</p>
+                        <p class="text-sm text-muted px-4">Anda akan menghapus data hewan <span
+                                class="font-bold text-dark" x-text="hewanNama"></span>. Aksi ini tidak dapat dibatalkan.
+                        </p>
                     </div>
 
-                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-3">
+                    <form :action="`/admin/hewan/${hewanId}`" method="POST"
+                        class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-3">
+                        @csrf
+                        @method('DELETE')
                         <button type="button" @click="open = false"
                             class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition cursor-pointer">
                             Batal
                         </button>
-                        <button type="button" @click="open = false"
+                        <button type="submit"
                             class="flex-1 px-4 py-2 bg-red-600 border border-red-600 rounded-md text-sm font-semibold text-white hover:bg-red-700 transition shadow-sm cursor-pointer">
                             Ya, Hapus
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         @endpush

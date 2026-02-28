@@ -24,4 +24,5 @@ Route::delete('/admin/category/{category}', [CategoryController::class, 'destroy
 Route::get('/admin/hewan', [\App\Http\Controllers\AnimalController::class, 'index'])->name('admin.hewan');
 Route::post('/admin/hewan', [\App\Http\Controllers\AnimalController::class, 'store'])->name('admin.hewan.store');
 Route::put('/admin/hewan/{hewan}', [\App\Http\Controllers\AnimalController::class, 'update'])->name('admin.hewan.update');
+Route::delete('/admin/hewan/{hewan}', [\App\Http\Controllers\AnimalController::class, 'destroy'])->name('admin.hewan.destroy');
 Route::get('/admin/hewan/detail/{id}', [\App\Http\Controllers\AnimalController::class, 'show'])->name('admin.hewan.detail');
