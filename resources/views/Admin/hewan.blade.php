@@ -207,7 +207,8 @@
                                             title="Detail">
                                             <i class="ph ph-eye"></i>
                                         </a>
-                                        <button @click="$dispatch('open-modal-edit', {{ json_encode($hewan) }})"
+                                        <button id="edit-btn-{{ $hewan->id }}"
+                                            @click="$dispatch('open-modal-edit', { hewan: {{ json_encode($hewan) }}, galleries: {{ json_encode($hewan->fotoHewan) }} })"
                                             class="p-1.5 text-blue-600 hover:text-white hover:bg-blue-600 rounded-md transition cursor-pointer"
                                             title="Edit">
                                             <i class="ph ph-pencil-simple"></i>
@@ -649,16 +650,95 @@
                 </div>
             </div>
 
-            <!-- Edit Data Modal (Placeholder) -->
+            <!-- Edit Data Modal -->
             <div x-data="{
                 open: false,
-                formData: {}
+                formData: {},
+                photoPreview: null,
+                gallery1Preview: null,
+                gallery2Preview: null,
+                gallery3Preview: null,
+                remove_photo: 0,
+                remove_gallery_1: 0,
+                remove_gallery_2: 0,
+                remove_gallery_3: 0,
+                gallery_1_id: null,
+                gallery_2_id: null,
+                gallery_3_id: null,
+            
+                handleFileChange(event, previewKey) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this[previewKey] = URL.createObjectURL(file);
+            
+                        // If they picked a new file, we reset the 'remove' flag
+                        // since they are replacing it rather than just deleting.
+                        if (previewKey === 'photoPreview') this.remove_photo = 0;
+                        if (previewKey === 'gallery1Preview') this.remove_gallery_1 = 0;
+                        if (previewKey === 'gallery2Preview') this.remove_gallery_2 = 0;
+                        if (previewKey === 'gallery3Preview') this.remove_gallery_3 = 0;
+                    }
+                },
+                removeImage(previewKey, inputId) {
+                    this[previewKey] = null;
+                    document.getElementById(inputId).value = '';
+            
+                    // Set the remove flags so the backend knows to delete existing files
+                    if (previewKey === 'photoPreview') {
+                        this.remove_photo = 1;
+                    } else if (previewKey === 'gallery1Preview') {
+                        this.remove_gallery_1 = 1;
+                    } else if (previewKey === 'gallery2Preview') {
+                        this.remove_gallery_2 = 1;
+                    } else if (previewKey === 'gallery3Preview') {
+                        this.remove_gallery_3 = 1;
+                    }
+                }
             }"
                 @open-modal-edit.window="
-                    formData = $event.detail;
+                    formData = $event.detail.hewan;
+                    
+                    // Reset File Inputs
+                    document.getElementById('editPhotoInput').value = '';
+                    document.getElementById('editGallery1Input').value = '';
+                    document.getElementById('editGallery2Input').value = '';
+                    document.getElementById('editGallery3Input').value = '';
+                    
+                    // Reset Removal Flags
+                    remove_photo = 0;
+                    remove_gallery_1 = 0;
+                    remove_gallery_2 = 0;
+                    remove_gallery_3 = 0;
+                    
+                    // Load existing photos into previews
+                    photoPreview = formData.photo ? formData.photo : null;
+                    
+                    gallery1Preview = null;
+                    gallery2Preview = null;
+                    gallery3Preview = null;
+                    gallery_1_id = null;
+                    gallery_2_id = null;
+                    gallery_3_id = null;
+
+                    if ($event.detail.galleries && $event.detail.galleries.length > 0) {
+                        if($event.detail.galleries[0]) {
+                            gallery1Preview = $event.detail.galleries[0].path_foto;
+                            gallery_1_id = $event.detail.galleries[0].id;
+                        }
+                        if($event.detail.galleries[1]) {
+                            gallery2Preview = $event.detail.galleries[1].path_foto;
+                            gallery_2_id = $event.detail.galleries[1].id;
+                        }
+                        if($event.detail.galleries[2]) {
+                            gallery3Preview = $event.detail.galleries[2].path_foto;
+                            gallery_3_id = $event.detail.galleries[2].id;
+                        }
+                    }
+
                     open = true;
                 "
-                x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
+                x-init="" x-show="open"
+                class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0" x-cloak>
                 <div x-show="open" x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
@@ -673,7 +753,6 @@
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative bg-white rounded-md shadow-xl sm:w-full sm:max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
 
-
                     <div
                         class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 shrink-0">
                         <h3 class="text-lg font-bold text-dark">Edit Data Hewan</h3>
@@ -682,44 +761,66 @@
                         </button>
                     </div>
 
-                    <form class="flex-1 overflow-y-auto w-full scrollbar-thin scrollbar-thumb-slate-200">
+                    <form :action="`/admin/hewan/${formData.id}`" method="POST" enctype="multipart/form-data"
+                        class="flex-1 overflow-y-auto w-full scrollbar-thin scrollbar-thumb-slate-200">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="_form" value="edit">
+                        <input type="hidden" name="hewan_id" :value="formData.id">
+
+                        <!-- Hidden inputs for removed state tracking -->
+                        <input type="hidden" name="remove_photo" :value="remove_photo">
+                        <input type="hidden" name="remove_gallery_1" :value="remove_gallery_1">
+                        <input type="hidden" name="remove_gallery_2" :value="remove_gallery_2">
+                        <input type="hidden" name="remove_gallery_3" :value="remove_gallery_3">
+
                         <div class="p-6 space-y-5">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <!-- Nama -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Nama Hewan</label>
-                                    <input type="text" x-model="formData.nama" placeholder="Masukkan nama hewan"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                    <input type="text" name="nama" x-model="formData.nama"
+                                        placeholder="Masukkan nama hewan"
+                                        class="w-full px-3 py-2 border {{ $errors->has('nama') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                    @if ($errors->has('nama') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('nama') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Kategori -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Kategori</label>
-                                    <select x-model="formData.category_id"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition bg-white cursor-pointer text-slate-700">
+                                    <select name="category_id" x-model="formData.category_id"
+                                        class="w-full px-3 py-2 border {{ $errors->has('category_id') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition bg-white cursor-pointer text-slate-700">
                                         <option value="" disabled selected>Pilih Kategori</option>
                                         @foreach ($categories as $cat)
                                             <option value="{{ $cat->id }}">{{ $cat->nama }}</option>
                                         @endforeach
                                     </select>
+                                    @if ($errors->has('category_id') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('category_id') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Jenis Kelamin -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Jenis Kelamin</label>
-                                    <select x-model="formData.jenis_kelamin"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition bg-white cursor-pointer text-slate-700">
+                                    <select name="jenis_kelamin" x-model="formData.jenis_kelamin"
+                                        class="w-full px-3 py-2 border {{ $errors->has('jenis_kelamin') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition bg-white cursor-pointer text-slate-700">
                                         <option value="" disabled selected>Pilih Gender</option>
                                         <option value="jantan">Jantan</option>
                                         <option value="betina">Betina</option>
                                     </select>
+                                    @if ($errors->has('jenis_kelamin') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('jenis_kelamin') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Asal Hewan -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Asal Hewan</label>
-                                    <select x-model="formData.asal_hewan"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition bg-white cursor-pointer text-slate-700">
+                                    <select name="asal_hewan" x-model="formData.asal_hewan"
+                                        class="w-full px-3 py-2 border {{ $errors->has('asal_hewan') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition bg-white cursor-pointer text-slate-700">
                                         <option value="" disabled selected>Pilih Asal</option>
                                         <option value="lokal">Lokal</option>
                                         <option value="impor">Impor</option>
@@ -727,36 +828,53 @@
                                         <option value="rescue">Rescue</option>
                                         <option value="titipan">Titipan</option>
                                     </select>
+                                    @if ($errors->has('asal_hewan') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('asal_hewan') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Umur -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Umur (Bulan)</label>
-                                    <input type="number" x-model="formData.umur" min="0" placeholder="Misal: 12"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                    <input type="number" name="umur" x-model="formData.umur" min="0"
+                                        placeholder="Misal: 12"
+                                        class="w-full px-3 py-2 border {{ $errors->has('umur') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                    @if ($errors->has('umur') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('umur') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Berat -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Berat (Kg)</label>
-                                    <input type="number" x-model="formData.berat" step="0.01" min="0"
-                                        placeholder="Misal: 4.5"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                    <input type="number" name="berat" x-model="formData.berat" step="0.01"
+                                        min="0" placeholder="Misal: 4.5"
+                                        class="w-full px-3 py-2 border {{ $errors->has('berat') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                    @if ($errors->has('berat') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('berat') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Harga -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Harga (Rp)</label>
-                                    <input type="number" x-model="formData.harga" min="0"
+                                    <input type="number" name="harga" x-model="formData.harga" min="0"
                                         placeholder="Misal: 1500000"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                        class="w-full px-3 py-2 border {{ $errors->has('harga') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                    @if ($errors->has('harga') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('harga') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Stok / Jumlah -->
                                 <div>
                                     <label class="block text-sm font-semibold text-dark mb-1">Stok / Jumlah</label>
-                                    <input type="number" x-model="formData.stok" min="0" placeholder="Misal: 1"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700">
+                                    <input type="number" name="stok" x-model="formData.stok" min="0"
+                                        placeholder="Misal: 1"
+                                        class="w-full px-3 py-2 border {{ $errors->has('stok') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700">
+                                    @if ($errors->has('stok') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('stok') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Sudah Steril -->
@@ -764,32 +882,132 @@
                                     <label class="block text-sm font-semibold text-dark mb-2">Sudah Steril?</label>
                                     <div class="flex items-center gap-4">
                                         <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-                                            <input type="radio" x-model="formData.sudah_steril" value="1"
-                                                class="text-primary focus:ring-primary border-slate-300">
+                                            <input type="radio" name="sudah_steril" x-model="formData.sudah_steril"
+                                                value="1" class="text-primary focus:ring-primary border-slate-300">
                                             Ya
                                         </label>
                                         <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-                                            <input type="radio" x-model="formData.sudah_steril" value="0"
-                                                class="text-primary focus:ring-primary border-slate-300">
+                                            <input type="radio" name="sudah_steril" x-model="formData.sudah_steril"
+                                                value="0" class="text-primary focus:ring-primary border-slate-300">
                                             Belum
                                         </label>
                                     </div>
+                                    @if ($errors->has('sudah_steril') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('sudah_steril') }}</p>
+                                    @endif
                                 </div>
 
                                 <!-- Foto Utama -->
                                 <div>
-                                    <label class="block text-sm font-semibold text-dark mb-1">Foto Utama (Kosongkan jika
-                                        tidak ubah)</label>
-                                    <input type="file" accept="image/*"
-                                        class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+                                    <label class="block text-sm font-semibold text-dark mb-1">Foto Utama</label>
+                                    <div x-show="!photoPreview">
+                                        <input type="file" name="photo" id="editPhotoInput" accept="image/*"
+                                            @change="handleFileChange($event, 'photoPreview')"
+                                            class="w-full px-3 py-2 border {{ $errors->has('photo') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+                                    </div>
+                                    <div x-show="photoPreview" class="relative w-max mt-2">
+                                        <img :src="photoPreview"
+                                            class="w-24 h-24 object-cover rounded-md border border-slate-200 shadow-sm">
+                                        <button type="button" @click="removeImage('photoPreview', 'editPhotoInput')"
+                                            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transform scale-90 transition-transform hover:scale-100">
+                                            <i class="ph ph-x text-xs"></i>
+                                        </button>
+                                    </div>
+                                    @if ($errors->has('photo') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('photo') }}</p>
+                                    @endif
+                                    @if (old('_form') === 'edit' && $errors->has('photo') == false && old('remove_photo') == '1' && !$errors->any())
+                                        <p class="text-red-500 text-xs mt-1">Foto utama wajib diunggah karena yang lama
+                                            telah dihapus.</p>
+                                    @endif
                                 </div>
                             </div>
 
                             <!-- Deskripsi -->
                             <div>
                                 <label class="block text-sm font-semibold text-dark mb-1">Deskripsi</label>
-                                <textarea rows="4" x-model="formData.deskripsi" placeholder="Tuliskan deskripsi lengkap tentang hewan ini..."
-                                    class="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm transition text-slate-700 resize-none"></textarea>
+                                <textarea name="deskripsi" rows="3" x-model="formData.deskripsi"
+                                    placeholder="Tuliskan deskripsi lengkap tentang hewan ini..."
+                                    class="w-full px-3 py-2 border {{ $errors->has('deskripsi') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-sm transition text-slate-700 resize-none"></textarea>
+                                @if ($errors->has('deskripsi') && old('_form') === 'edit')
+                                    <p class="text-red-500 text-xs mt-1">{{ $errors->first('deskripsi') }}</p>
+                                @endif
+                            </div>
+
+                            <hr class="border-slate-100">
+
+                            <div>
+                                <h4 class="text-sm font-bold text-dark mb-3">Foto Gallery</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                    <!-- Gallery 1 -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-600 mb-1">Gallery 1</label>
+                                        <div x-show="!gallery1Preview">
+                                            <input type="file" name="foto_gallery_1" id="editGallery1Input"
+                                                accept="image/*" @change="handleFileChange($event, 'gallery1Preview')"
+                                                class="w-full px-2 py-1.5 border {{ $errors->has('foto_gallery_1') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-xs transition text-slate-700 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+                                        </div>
+                                        <div x-show="gallery1Preview" class="relative w-max mt-2">
+                                            <img :src="gallery1Preview"
+                                                class="w-20 h-20 object-cover rounded-md border border-slate-200 shadow-sm">
+                                            <button type="button"
+                                                @click="removeImage('gallery1Preview', 'editGallery1Input')"
+                                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transform scale-90 transition-transform hover:scale-100">
+                                                <i class="ph ph-x text-xs"></i>
+                                            </button>
+                                        </div>
+                                        @if ($errors->has('foto_gallery_1') && old('_form') === 'edit')
+                                            <p class="text-red-500 text-xs mt-1">{{ $errors->first('foto_gallery_1') }}
+                                            </p>
+                                        @endif
+                                    </div>
+
+                                    <!-- Gallery 2 -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-600 mb-1">Gallery 2</label>
+                                        <div x-show="!gallery2Preview">
+                                            <input type="file" name="foto_gallery_2" id="editGallery2Input"
+                                                accept="image/*" @change="handleFileChange($event, 'gallery2Preview')"
+                                                class="w-full px-2 py-1.5 border {{ $errors->has('foto_gallery_2') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-xs transition text-slate-700 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+                                        </div>
+                                        <div x-show="gallery2Preview" class="relative w-max mt-2">
+                                            <img :src="gallery2Preview"
+                                                class="w-20 h-20 object-cover rounded-md border border-slate-200 shadow-sm">
+                                            <button type="button"
+                                                @click="removeImage('gallery2Preview', 'editGallery2Input')"
+                                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transform scale-90 transition-transform hover:scale-100">
+                                                <i class="ph ph-x text-xs"></i>
+                                            </button>
+                                        </div>
+                                        @if ($errors->has('foto_gallery_2') && old('_form') === 'edit')
+                                            <p class="text-red-500 text-xs mt-1">{{ $errors->first('foto_gallery_2') }}
+                                            </p>
+                                        @endif
+                                    </div>
+
+                                    <!-- Gallery 3 -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-600 mb-1">Gallery 3</label>
+                                        <div x-show="!gallery3Preview">
+                                            <input type="file" name="foto_gallery_3" id="editGallery3Input"
+                                                accept="image/*" @change="handleFileChange($event, 'gallery3Preview')"
+                                                class="w-full px-2 py-1.5 border {{ $errors->has('foto_gallery_3') && old('_form') === 'edit' ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-primary' }} rounded-md focus:outline-none focus:ring-1 text-xs transition text-slate-700 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+                                        </div>
+                                        <div x-show="gallery3Preview" class="relative w-max mt-2">
+                                            <img :src="gallery3Preview"
+                                                class="w-20 h-20 object-cover rounded-md border border-slate-200 shadow-sm">
+                                            <button type="button"
+                                                @click="removeImage('gallery3Preview', 'editGallery3Input')"
+                                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transform scale-90 transition-transform hover:scale-100">
+                                                <i class="ph ph-x text-xs"></i>
+                                            </button>
+                                        </div>
+                                        @if ($errors->has('foto_gallery_3') && old('_form') === 'edit')
+                                            <p class="text-red-500 text-xs mt-1">{{ $errors->first('foto_gallery_3') }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -799,7 +1017,7 @@
                                 class="px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-dark transition cursor-pointer">
                                 Batal
                             </button>
-                            <button type="button"
+                            <button type="submit"
                                 class="px-4 py-2 bg-blue-600 border border-blue-600 rounded-md text-sm font-semibold text-white hover:bg-blue-700 transition shadow-sm cursor-pointer">
                                 Update Data
                             </button>
