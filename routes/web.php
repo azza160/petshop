@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,11 +32,6 @@ Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin
     Route::get('/admin/hewan/detail/{id}', [\App\Http\Controllers\AnimalController::class, 'show'])->name('admin.hewan.detail');
 
     // Produk Routes
-    Route::get('/admin/product', function () {
-        return view('Admin.product');
-    })->name('admin.product');
-
-    Route::get('/admin/product/detail', function () {
-        return view('Admin.detail-product');
-    })->name('admin.product.detail');
+    Route::get('/admin/product', [ProductController::class, 'index'])->name('admin.product');
+    Route::get('/admin/product/detail/{id}', [ProductController::class, 'show'])->name('admin.product.detail');
 

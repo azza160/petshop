@@ -2,76 +2,7 @@
     <x-slot:title>Data Produk</x-slot>
     <x-slot:headerTitle>Data Produk</x-slot>
 
-    @php
-        // Dummy Categories
-        $categories = [
-            (object) ['id' => 1, 'nama' => 'Makanan'],
-            (object) ['id' => 2, 'nama' => 'Aksesoris'],
-            (object) ['id' => 3, 'nama' => 'Mainan'],
-            (object) ['id' => 4, 'nama' => 'Pasir'],
-        ];
 
-        // Dummy Products
-        $produks = [
-            (object) [
-                'id' => '01J6XXXXX1',
-                'nama' => 'Royal Canin Kitten',
-                'category' => (object) ['nama' => 'Makanan'],
-                'kategori_id' => 1,
-                'deskripsi' =>
-                    'Makanan kering kucing khusus untuk anakan kucing usia 1-4 bulan menyehatkan tanpa pengawet dan kaya nutrisi. Mengandung vitamin E dan C yang sangat berguna menunjang antibodi anak kucing.',
-                'harga' => 85000,
-                'stok' => 25,
-                'foto_utama' =>
-                    'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=200',
-                'merek' => 'Royal Canin',
-                'tanggal_kadaluarsa' => '2027-04-12',
-                'berat' => 0.4,
-                'is_favorit' => true,
-                'galeri' => [
-                    (object) [
-                        'id' => 1,
-                        'path_foto' =>
-                            'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=500',
-                    ],
-                ],
-            ],
-            (object) [
-                'id' => '01J6XXXXX2',
-                'nama' => 'Mainan Tikus Interaktif',
-                'category' => (object) ['nama' => 'Mainan'],
-                'kategori_id' => 3,
-                'deskripsi' =>
-                    'Mainan interaktif untuk kucing agar aktif bergerak dan tidak stress, dilengkapi bel yang menarik perhatian anabul kesayangan.',
-                'harga' => 15000,
-                'stok' => 50,
-                'foto_utama' =>
-                    'https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&q=80&w=200',
-                'merek' => 'Cat Toy',
-                'tanggal_kadaluarsa' => null,
-                'berat' => 0.1,
-                'is_favorit' => false,
-                'galeri' => [],
-            ],
-            (object) [
-                'id' => '01J6XXXXX3',
-                'nama' => 'Pasir Gumpal Wangi Kopi',
-                'category' => (object) ['nama' => 'Pasir'],
-                'kategori_id' => 4,
-                'deskripsi' =>
-                    'Pasir gumpal wangi aroma kopi yang ampuh menetralisir bau kotoran kucing. Mudah menggumpal dan ekonomis.',
-                'harga' => 35000,
-                'stok' => 20,
-                'foto_utama' =>
-                    'https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=80&w=200',
-                'merek' => 'Meow Litter',
-                'tanggal_kadaluarsa' => null,
-                'berat' => 5.0,
-                'is_favorit' => true,
-                'galeri' => [],
-            ],
-        ];
-    @endphp
 
     <!-- Page Header & Breadcrumb -->
     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -123,13 +54,14 @@
 
     <!-- Alpine state -->
     <div x-data="{
-        search: '',
-        kategori: 'semua',
-        sort: 'terbaru'
+        search: '{{ $search ?? '' }}',
+        kategori: '{{ $kategoriId ?? 'semua' }}',
+        sort: '{{ $sort ?? 'terbaru' }}'
     }">
 
         <!-- Toolbar (Filters & Search) -->
-        <div class="bg-white rounded-md shadow-sm border border-slate-100 p-4 mb-6" data-aos="fade-up">
+        <form method="GET" action="{{ route('admin.product') }}"
+            class="bg-white rounded-md shadow-sm border border-slate-100 p-4 mb-6" data-aos="fade-up">
 
             <div class="flex flex-col lg:flex-row justify-between gap-4">
 
@@ -140,17 +72,21 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="ph ph-magnifying-glass text-muted"></i>
                         </div>
-                        <input type="text" x-model="search" placeholder="Cari nama produk..."
+                        <input type="text" name="search" x-model="search" @change="$event.target.form.submit()"
+                            placeholder="Cari nama produk..."
                             class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-md leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition duration-150 ease-in-out sm:text-sm">
                     </div>
 
                     <!-- Category Filter -->
                     <div class="relative w-full">
-                        <select x-model="kategori"
+                        <select name="kategori" x-model="kategori" @change="$event.target.form.submit()"
                             class="block w-full pl-3 pr-10 py-2 text-base border-slate-200 bg-slate-50 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition duration-150 ease-in-out appearance-none cursor-pointer">
                             <option value="semua">Semua Kategori</option>
                             @foreach ($categories as $cat)
-                                <option value="{{ $cat->id }}">{{ $cat->nama }}</option>
+                                <option value="{{ $cat->id }}"
+                                    {{ ($kategoriId ?? '') == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->nama }}
+                                </option>
                             @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
@@ -160,10 +96,12 @@
 
                     <!-- Sort Filter -->
                     <div class="relative w-full">
-                        <select x-model="sort"
+                        <select name="sort" x-model="sort" @change="$event.target.form.submit()"
                             class="block w-full pl-3 pr-10 py-2 text-base border-slate-200 bg-slate-50 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition duration-150 ease-in-out appearance-none cursor-pointer">
-                            <option value="terbaru">Data Terbaru</option>
-                            <option value="terlama">Data Terlama</option>
+                            <option value="terbaru" {{ ($sort ?? 'terbaru') === 'terbaru' ? 'selected' : '' }}>Data
+                                Terbaru</option>
+                            <option value="terlama" {{ ($sort ?? '') === 'terlama' ? 'selected' : '' }}>Data Terlama
+                            </option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
                             <i class="ph ph-caret-down"></i>
@@ -180,7 +118,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
 
         <!-- Table Container -->
         <div class="bg-white rounded-md shadow-sm border border-slate-100 overflow-hidden mb-6" data-aos="fade-up"
@@ -200,11 +138,9 @@
                     </thead>
                     <tbody class="text-sm divide-y divide-slate-100 text-slate-700">
                         @forelse($produks as $produk)
-                            <!-- Filter Alpine Logic (Static) -->
-                            <tr class="hover:bg-slate-50/50 transition-colors"
-                                x-show="(search === '' || '{{ strtolower($produk->nama) }}'.includes(search.toLowerCase())) && (kategori === 'semua' || kategori == '{{ $produk->kategori_id }}')">
+                            <tr class="hover:bg-slate-50/50 transition-colors">
                                 <td class="p-4 text-center text-muted font-medium">
-                                    {{ $loop->iteration }}
+                                    {{ ($produks->currentPage() - 1) * $produks->perPage() + $loop->iteration }}
                                 </td>
                                 <td class="p-4">
                                     <img src="{{ $produk->foto_utama }}" alt="{{ $produk->nama }}"
@@ -232,7 +168,7 @@
                                 </td>
                                 <td class="p-4">
                                     <div class="flex items-center justify-center gap-2 text-lg">
-                                        <a href="{{ route('admin.product.detail', ['id' => $produk->id]) }}"
+                                        <a href="{{ route('admin.product.detail', $produk->id) }}"
                                             class="p-1.5 text-emerald-600 hover:text-white hover:bg-emerald-600 rounded-md transition cursor-pointer"
                                             title="Detail">
                                             <i class="ph ph-eye"></i>
@@ -266,31 +202,87 @@
                 </table>
             </div>
 
-            <!-- Static Pagination UI -->
+            <!-- Pagination -->
             <div class="p-4 border-t border-slate-100 bg-slate-50/50">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div class="text-sm text-muted text-center sm:text-left">
-                        Menampilkan <span class="font-semibold text-dark">1</span> -
-                        <span class="font-semibold text-dark">{{ count($produks) }}</span>
-                        dari <span class="font-semibold text-dark">{{ count($produks) }}</span> data
+                        Menampilkan <span class="font-semibold text-dark">{{ $produks->firstItem() ?? 0 }}</span> -
+                        <span class="font-semibold text-dark">{{ $produks->lastItem() ?? 0 }}</span>
+                        dari <span class="font-semibold text-dark">{{ $produks->total() }}</span> data
                     </div>
                     <div class="flex items-center gap-1 flex-wrap justify-center">
-                        <span
-                            class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-slate-300 bg-slate-50 cursor-not-allowed">
-                            <span class="hidden sm:inline">Sebelumnya</span>
-                            <i class="ph ph-caret-left sm:hidden"></i>
-                        </span>
+                        {{-- Previous Button --}}
+                        @if ($produks->onFirstPage())
+                            <span
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-slate-300 bg-slate-50 cursor-not-allowed">
+                                <span class="hidden sm:inline">Sebelumnya</span>
+                                <i class="ph ph-caret-left sm:hidden"></i>
+                            </span>
+                        @else
+                            <a href="{{ $produks->previousPageUrl() }}"
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition cursor-pointer">
+                                <span class="hidden sm:inline">Sebelumnya</span>
+                                <i class="ph ph-caret-left sm:hidden"></i>
+                            </a>
+                        @endif
 
-                        <span
-                            class="px-3 py-1.5 bg-primary text-white border border-primary rounded-md text-sm font-medium shadow-sm">
-                            1
-                        </span>
+                        {{-- Page Numbers --}}
+                        @php
+                            $currentPage = $produks->currentPage();
+                            $lastPage = $produks->lastPage();
+                            $delta = 1;
+                            $pages = [];
 
-                        <span
-                            class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-slate-300 bg-slate-50 cursor-not-allowed">
-                            <span class="hidden sm:inline">Selanjutnya</span>
-                            <i class="ph ph-caret-right sm:hidden"></i>
-                        </span>
+                            $pages[] = 1;
+                            for (
+                                $i = max(2, $currentPage - $delta);
+                                $i <= min($lastPage - 1, $currentPage + $delta);
+                                $i++
+                            ) {
+                                $pages[] = $i;
+                            }
+                            if ($lastPage > 1) {
+                                $pages[] = $lastPage;
+                            }
+
+                            $pages = array_unique($pages);
+                            sort($pages);
+                            $prev = null;
+                        @endphp
+
+                        @foreach ($pages as $page)
+                            @if ($prev !== null && $page - $prev > 1)
+                                <span class="px-2 py-1.5 text-sm text-muted">...</span>
+                            @endif
+
+                            @if ($page == $currentPage)
+                                <span
+                                    class="px-3 py-1.5 bg-primary text-white border border-primary rounded-md text-sm font-medium shadow-sm">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $produks->url($page) }}"
+                                    class="px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition cursor-pointer">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                            @php $prev = $page; @endphp
+                        @endforeach
+
+                        {{-- Next Button --}}
+                        @if ($produks->hasMorePages())
+                            <a href="{{ $produks->nextPageUrl() }}"
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-muted hover:bg-white hover:text-dark transition cursor-pointer">
+                                <span class="hidden sm:inline">Selanjutnya</span>
+                                <i class="ph ph-caret-right sm:hidden"></i>
+                            </a>
+                        @else
+                            <span
+                                class="px-2 sm:px-3 py-1.5 border border-slate-200 rounded-md text-sm text-slate-300 bg-slate-50 cursor-not-allowed">
+                                <span class="hidden sm:inline">Selanjutnya</span>
+                                <i class="ph ph-caret-right sm:hidden"></i>
+                            </span>
+                        @endif
                     </div>
                 </div>
             </div>

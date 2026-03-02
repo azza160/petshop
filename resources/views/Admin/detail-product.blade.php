@@ -1,37 +1,6 @@
 ﻿<x-admin-template>
-    <x-slot:title>Detail Produk - Royal Canin</x-slot>
+    <x-slot:title>Detail Produk - {{ $produk->nama }}</x-slot>
     <x-slot:headerTitle>Detail Produk</x-slot>
-
-    @php
-        // Dummy Product Detail
-        $Produk = (object) [
-            'id' => '01J6XXXXX1',
-            'nama' => 'Royal Canin Kitten',
-            'category' => (object) ['nama' => 'Makanan'],
-            'kategori_id' => 1,
-            'deskripsi' =>
-                'Makanan kering kucing khusus untuk anakan kucing usia 1-4 bulan menyehatkan tanpa pengawet dan kaya nutrisi. Mengandung vitamin E dan C yang sangat berguna menunjang antibodi anak kucing.',
-            'harga' => 85000,
-            'stok' => 25,
-            'photo' => 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=500',
-            'merek' => 'Royal Canin',
-            'tanggal_kadaluarsa' => '2027-04-12',
-            'berat' => 0.4,
-            'isFavorite' => true,
-            'fotoProduk' => [
-                (object) [
-                    'id' => 1,
-                    'path_foto' =>
-                        'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=500',
-                ],
-                (object) [
-                    'id' => 2,
-                    'path_foto' =>
-                        'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=500',
-                ],
-            ],
-        ];
-    @endphp
 
     <div x-data="{}">
 
@@ -86,15 +55,15 @@
             <div class="lg:col-span-5 space-y-4" data-aos="fade-right">
                 <!-- Main Photo -->
                 <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-100 relative group overflow-hidden">
-                    @if ($Produk->isFavorite)
+                    @if ($produk->is_favorit)
                         <div
                             class="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur text-red-500 w-10 h-10 flex items-center justify-center rounded-full shadow-md">
                             <i class="ph-fill ph-heart text-xl animate-pulse"></i>
                         </div>
                     @endif
                     <div class="aspect-square rounded-lg overflow-hidden cursor-pointer"
-                        @click="$dispatch('open-global-image', { src: '{{ $Produk->photo }}' })">
-                        <img src="{{ $Produk->photo }}" alt="{{ $Produk->nama }}"
+                        @click="$dispatch('open-global-image', { src: '{{ $produk->foto_utama }}' })">
+                        <img src="{{ $produk->foto_utama }}" alt="{{ $produk->nama }}"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         <div
                             class="absolute inset-0 bg-black/opacity-0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
@@ -107,11 +76,11 @@
                 </div>
 
                 <!-- Gallery Photos -->
-                @if ($Produk->fotoProduk && count($Produk->fotoProduk) > 0)
+                @if ($produk->galeri && count($produk->galeri) > 0)
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
                         <h3 class="text-sm font-bold text-dark mb-3">Galeri Foto Lainnya</h3>
                         <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2">
-                            @foreach ($Produk->fotoProduk as $img)
+                            @foreach ($produk->galeri as $img)
                                 <div class="aspect-square rounded-md overflow-hidden border border-slate-200 cursor-pointer relative group"
                                     @click="$dispatch('open-global-image', { src: '{{ $img->path_foto }}' })">
                                     <img src="{{ $img->path_foto }}"
@@ -140,13 +109,13 @@
                         <div class="flex flex-wrap items-center gap-2 mb-4">
                             <span
                                 class="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
-                                <i class="ph-fill ph-tag"></i> {{ $Produk->category->nama ?? '-' }}
+                                <i class="ph-fill ph-tag"></i> {{ $produk->category->nama ?? '-' }}
                             </span>
                             <span
                                 class="px-3 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5">
-                                <i class="ph-bold ph-trademark font-bold"></i> {{ $Produk->merek }}
+                                <i class="ph-bold ph-trademark font-bold"></i> {{ $produk->merek }}
                             </span>
-                            @if ($Produk->isFavorite)
+                            @if ($produk->is_favorit)
                                 <span
                                     class="px-3 py-1 bg-red-50 text-red-600 border border-red-100 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5 capitalize">
                                     <i class="ph-fill ph-heart"></i> Favorit
@@ -156,10 +125,10 @@
 
                         <!-- Title & Price -->
                         <div class="mb-6 pb-6 border-b border-slate-100">
-                            <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-2 leading-tight">{{ $Produk->nama }}
+                            <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-2 leading-tight">{{ $produk->nama }}
                             </h1>
                             <div class="text-3xl font-bold text-emerald-600 mb-2">Rp
-                                {{ number_format($Produk->harga, 0, ',', '.') }}</div>
+                                {{ number_format($produk->harga, 0, ',', '.') }}</div>
                             <p class="text-sm text-slate-500 flex items-center gap-1"><i
                                     class="ph-fill ph-check-circle text-emerald-500"></i> Harga sudah termasuk pajak &
                                 dokumen relevan</p>
@@ -175,7 +144,7 @@
                                     <i class="ph ph-tag text-xl"></i>
                                 </div>
                                 <p class="text-xs text-muted font-medium mb-0.5">Kategori</p>
-                                <p class="font-bold text-dark">{{ $Produk->category->nama ?? '-' }}</p>
+                                <p class="font-bold text-dark">{{ $produk->category->nama ?? '-' }}</p>
                             </div>
                             <!-- Berat -->
                             <div
@@ -185,7 +154,7 @@
                                     <i class="ph ph-scales text-xl"></i>
                                 </div>
                                 <p class="text-xs text-muted font-medium mb-0.5">Berat</p>
-                                <p class="font-bold text-dark">{{ $Produk->berat }} Kg</p>
+                                <p class="font-bold text-dark">{{ $produk->berat }} Kg</p>
                             </div>
                             <!-- Stok -->
                             <div
@@ -195,7 +164,7 @@
                                     <i class="ph ph-archive-box text-xl"></i>
                                 </div>
                                 <p class="text-xs text-muted font-medium mb-0.5">Stok</p>
-                                <p class="font-bold text-dark">{{ $Produk->stok }} Qty</p>
+                                <p class="font-bold text-dark">{{ $produk->stok }} Qty</p>
                             </div>
                             <!-- Tanggal Kadaluarsa -->
                             <div
@@ -206,7 +175,7 @@
                                 </div>
                                 <p class="text-xs text-muted font-medium mb-0.5">Kadaluarsa</p>
                                 <p class="font-bold text-dark">
-                                    {{ $Produk->tanggal_kadaluarsa ? \Carbon\Carbon::parse($Produk->tanggal_kadaluarsa)->format('d M Y') : '-' }}
+                                    {{ $produk->tanggal_kadaluarsa ? \Carbon\Carbon::parse($produk->tanggal_kadaluarsa)->format('d M Y') : '-' }}
                                 </p>
                             </div>
                         </div>
@@ -218,7 +187,7 @@
                                 Deskripsi Produk
                             </h3>
                             <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-muted leading-relaxed">
-                                {!! nl2br(e($Produk->deskripsi)) !!}
+                                {!! nl2br(e($produk->deskripsi)) !!}
                             </div>
                         </div>
                     </div>
