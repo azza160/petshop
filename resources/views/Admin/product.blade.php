@@ -192,7 +192,7 @@
                             <tr>
                                 <td colspan="9" class="p-8 text-center text-muted">
                                     <div class="flex flex-col items-center gap-3">
-                                        <i class="ph ph-paw-print text-4xl text-slate-300"></i>
+                                        <i class="ph ph-shopping-bag text-4xl text-slate-300"></i>
                                         <p class="font-semibold">Tidak ada data Produk ditemukan.</p>
                                     </div>
                                 </td>

@@ -48,8 +48,8 @@
                 <div class="flex transition-transform duration-500 ease-in-out"
                     :style="`transform: translateX(-${currentIndex * (100 / itemsPerSlide)}%);`">
 
-                    <!-- Loop through cards from config using Blade -->
-                    @foreach (config('top_products', []) as $index => $product)
+                    <!-- Loop through products from DB -->
+                    @forelse ($topProducts as $index => $product)
                         <div class="flex-none px-3" :style="`width: ${100 / itemsPerSlide}%`">
 
                             <div class="bg-white rounded-2xl overflow-hidden group  transition-all duration-500 h-full flex flex-col relative border border-slate-100 shadow-md"
@@ -64,19 +64,12 @@
                                 <div
                                     class="relative w-full aspect-[4/3] bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6 z-10 overflow-hidden">
 
-                                    @if (isset($product['isTopSale']) && $product['isTopSale'])
-                                        <div
-                                            class="absolute top-8 left-8 z-20 bg-secondary text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded shadow-sm">
-                                            Top Sale
-                                        </div>
-                                    @endif
-
                                     <div
                                         class="relative w-full h-full transform group-hover:scale-105 transition-all duration-500 rounded-lg overflow-hidden shadow-sm bg-white">
                                         <div
                                             class="absolute inset-0 bg-black/5 mix-blend-multiply z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                                         </div>
-                                        <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}"
+                                        <img src="{{ $product->foto_utama }}" alt="{{ $product->nama }}"
                                             class="absolute inset-0 w-full h-full object-cover">
                                     </div>
                                 </div>
@@ -89,7 +82,7 @@
 
                                         <span
                                             class="text-xs font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-sm border border-primary/20 uppercase tracking-wider">
-                                            {{ $product['category'] }}
+                                            {{ $product->category->nama ?? '-' }}
                                         </span>
 
                                         <!-- Stock Badge -->
@@ -103,19 +96,19 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M3 7v10l9 4 9-4V7" />
                                             </svg>
-                                            {{ $product['stock'] }}
+                                            {{ $product->stok }}
                                         </div>
                                     </div>
 
                                     <!-- Product Name -->
                                     <h3
                                         class="text-lg font-bold text-dark mb-2 group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                                        {{ $product['name'] }}
+                                        {{ $product->nama }}
                                     </h3>
 
                                     <!-- Description -->
                                     <p class="text-sm text-muted line-clamp-2 mb-4">
-                                        {{ $product['description'] }}
+                                        {{ $product->deskripsi }}
                                     </p>
 
                                     <!-- Price + Cart -->
@@ -125,13 +118,15 @@
                                             <span
                                                 class="text-[11px] text-muted uppercase tracking-wider font-semibold">Harga</span>
                                             <span class="text-xl font-bold text-secondary">
-                                                Rp {{ number_format($product['price'], 0, ',', '.') }}
+                                                Rp {{ number_format($product->harga, 0, ',', '.') }}
                                             </span>
                                         </div>
 
-                                        <!-- Cart Button -->
-                                        <button
-                                            class="relative w-11 h-11 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-emerald-600 transition shadow-sm shadow-primary/20 group">
+                                        <!-- Pesanan Khusus Cart Button → WA -->
+                                        <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik dengan produk ' . $product->nama . '. Bisakah saya mendapat informasi lebih lanjut?') }}"
+                                            target="_blank"
+                                            class="relative w-11 h-11 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-emerald-600 transition shadow-sm shadow-primary/20 group"
+                                            title="Pesanan Khusus via WhatsApp">
 
                                             <!-- Cart Icon -->
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +144,7 @@
                                                 class="absolute -top-1 -right-1 w-4 h-4 bg-white text-primary text-[10px] font-bold rounded-full flex items-center justify-center shadow border">
                                                 +
                                             </span>
-                                        </button>
+                                        </a>
                                     </div>
 
                                     <!-- Detail Button Full Width -->
@@ -161,12 +156,16 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="flex-none px-3 w-full text-center py-16 text-muted">
+                            <i class="ph ph-shopping-bag text-5xl text-slate-300 mb-3 block"></i>
+                            <p class="font-semibold">Belum ada produk favorit yang ditampilkan.</p>
+                        </div>
+                    @endforelse
                 </div>
             </div>
 
             <!-- Indicators: Styled as minimalist dot progress -->
-            <!-- Removed data-aos="fade-up" to ensure desktop visibility regardless of scroll triggers -->
             <div class="flex items-center justify-center gap-2 mt-4 relative z-20">
                 <template x-for="(_, index) in totalSlides" :key="index">
                     <button @click="goTo(index)"
@@ -187,7 +186,7 @@
             currentIndex: 0,
             itemsPerSlide: 3,
             autoPlayInterval: null,
-            totalItems: {{ count(config('top_products', [])) }},
+            totalItems: {{ $topProducts->count() }},
 
             initCarousel() {
                 this.updateItemsPerSlide();
