@@ -336,7 +336,7 @@
                         </button>
                     </div>
 
-                    <form method="POST" action="" enctype="multipart/form-data"
+                    <form method="POST" action="{{ route('admin.product.store') }}" enctype="multipart/form-data"
                         class="flex-1 overflow-y-auto w-full scrollbar-thin scrollbar-thumb-slate-200">
                         @csrf
                         <input type="hidden" name="_form" value="add">
@@ -673,7 +673,7 @@
                         </button>
                     </div>
 
-                    <form :action="`/admin/Produk/${formData.id}`" method="POST" enctype="multipart/form-data"
+                    <form :action="`/admin/product/${formData.id}`" method="POST" enctype="multipart/form-data"
                         class="flex-1 overflow-y-auto w-full scrollbar-thin scrollbar-thumb-slate-200">
                         @csrf
                         @method('PUT')
@@ -935,7 +935,7 @@
                         </p>
                     </div>
 
-                    <form :action="`/admin/Produk/${ProdukId}`" method="POST"
+                    <form :action="`/admin/product/${ProdukId}`" method="POST"
                         class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-3">
                         @csrf
                         @method('DELETE')

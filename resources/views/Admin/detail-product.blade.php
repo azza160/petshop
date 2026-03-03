@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <!-- Detail section for: {{ $Produk->nama }} -->
+        <!-- Detail section for: {{ $produk->nama }} -->
 
         <!-- Main Content -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
