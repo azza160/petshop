@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('Landing.landing');
-});
+})->name('landing');
 
 
 

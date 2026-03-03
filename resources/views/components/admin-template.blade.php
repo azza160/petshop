@@ -124,6 +124,23 @@
                         </span>
                     </a>
                 </li>
+                <!-- Nav Item: kembali ke beranda -->
+
+                <li>
+                    <a href="{{ route('landing') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group {{ request()->routeIs('landing') ? 'text-primary bg-primary/10 relative overflow-hidden' : 'text-muted hover:text-dark hover:bg-slate-100' }}"
+                        title="kembali ke beranda">
+                        @if (request()->routeIs('landing'))
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-md"></div>
+                        @endif
+                        <i
+                            class="ph ph-house text-xl shrink-0 transition-transform group-hover:scale-110 group-hover:text-blue-500"></i>
+                        <span class="font-medium whitespace-nowrap transition-opacity duration-300"
+                            :class="!sidebarOpen ? 'opacity-0 w-0' : 'opacity-100'">
+                            kembali ke beranda
+                        </span>
+                    </a>
+                </li>
             </ul>
         </div>
 
