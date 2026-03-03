@@ -112,6 +112,7 @@ class ProductController extends Controller
             'berat'              => 'nullable|numeric|min:0',
             'harga'              => 'required|numeric|min:0',
             'stok'               => 'required|integer|min:0',
+            'is_favorit'         => 'required|boolean',
             'photo'              => $photoRule,
             'deskripsi'          => 'required|string',
             'foto_gallery_1'     => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -179,6 +180,7 @@ class ProductController extends Controller
                 $product->berat              = $validated['berat'] ?? null;
                 $product->harga              = $validated['harga'];
                 $product->stok               = $validated['stok'];
+                $product->is_favorit         = $validated['is_favorit'];
                 $product->deskripsi          = $validated['deskripsi'];
                 $product->save();
             });

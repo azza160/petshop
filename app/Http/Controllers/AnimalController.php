@@ -120,6 +120,7 @@ class AnimalController extends Controller
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'sudah_steril' => 'required|boolean',
+            'isFavorite' => 'required|boolean',
             'photo' => $photoRule,
             'deskripsi' => 'required|string',
             'foto_gallery_1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

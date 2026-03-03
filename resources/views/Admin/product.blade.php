@@ -771,6 +771,27 @@
                                     @endif
                                 </div>
 
+                                <!-- Is Favorit (Top Sale) -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-dark mb-2">Tampil di Landing Page / Top
+                                        Sale?</label>
+                                    <div class="flex items-center gap-4">
+                                        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                                            <input type="radio" name="is_favorit" x-model="formData.is_favorit"
+                                                value="1" class="text-primary focus:ring-primary border-slate-300">
+                                            Ya
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                                            <input type="radio" name="is_favorit" x-model="formData.is_favorit"
+                                                value="0" class="text-primary focus:ring-primary border-slate-300">
+                                            Tidak
+                                        </label>
+                                    </div>
+                                    @if ($errors->has('is_favorit') && old('_form') === 'edit')
+                                        <p class="text-red-500 text-xs mt-1">{{ $errors->first('is_favorit') }}</p>
+                                    @endif
+                                </div>
+
 
 
                                 <!-- Foto Utama -->
