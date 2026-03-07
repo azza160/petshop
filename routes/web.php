@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
-Route::get('/list-hewan', function () {
-    return view('Landing.list-hewan');
-})->name('landing.list-hewan');
+Route::get('/list-hewan', [LandingController::class, 'listHewan'])->name('landing.list-hewan');
 
 
 

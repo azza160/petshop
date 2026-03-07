@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Animal;
+use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class LandingController extends Controller
 {
@@ -24,5 +26,43 @@ class LandingController extends Controller
             ->get();
 
         return view('Landing.landing', compact('topAnimals', 'topProducts'));
+    }
+
+    public function listHewan(Request $request)
+    {
+        $search      = $request->input('search');
+        $kategoriId  = $request->input('kategori', 'semua');
+        $jenisKelamin = $request->input('jenis_kelamin', 'semua');
+        $asalHewan   = $request->input('asal_hewan', 'semua');
+
+        // Categories for the filter dropdown
+        $categories = Category::where('tipe', 'hewan')->get();
+
+        $query = Animal::with('category');
+
+        if ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+
+        if ($kategoriId && $kategoriId !== 'semua') {
+            $query->where('category_id', $kategoriId);
+        }
+
+        if ($jenisKelamin && $jenisKelamin !== 'semua') {
+            $query->where('jenis_kelamin', $jenisKelamin);
+        }
+
+        if ($asalHewan && $asalHewan !== 'semua') {
+            $query->where('asal_hewan', $asalHewan);
+        }
+
+        $query->orderBy('created_at', 'desc');
+
+        $animals = $query->paginate(8)->withQueryString();
+
+        return view('Landing.list-hewan', compact(
+            'animals', 'categories', 'search',
+            'kategoriId', 'jenisKelamin', 'asalHewan'
+        ));
     }
 }
