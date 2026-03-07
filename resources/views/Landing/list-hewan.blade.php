@@ -293,39 +293,37 @@
                             {{-- Image Container --}}
                             <div class="relative w-full aspect-[4/3] bg-slate-100 flex items-center justify-center p-3 overflow-hidden cursor-pointer"
                                 @click="openImage(animal)">
-
-                                {{-- Hover overlay --}}
-                                <div
-                                    class="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
+                                {{-- Image Wrapper --}}
+                                <div class="w-full h-full rounded-lg overflow-hidden relative">
+                                    {{-- Hover Overlay (Moved inside image wrapper and changed to relative containment) --}}
                                     <div
-                                        class="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-dark text-xs font-semibold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                        <i class="ph ph-arrows-out text-sm"></i>
-                                        Lihat Foto
+                                        class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
+                                        <div
+                                            class="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-dark text-xs font-semibold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                            <i class="ph ph-arrows-out text-sm"></i>
+                                            Lihat Foto
+                                        </div>
                                     </div>
-                                </div>
-
-                                {{-- Image --}}
-                                <div class="w-full h-full rounded-lg overflow-hidden">
                                     <img :src="animal.photo" :alt="animal.nama"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 </div>
 
                                 {{-- Stock Badge --}}
-                                <div class="absolute top-3 right-3 z-10">
+                                <div class="absolute top-5 right-5 z-10">
                                     <span x-show="animal.stok > 0"
-                                        class="text-[10px] font-bold bg-emerald-500 text-white px-2 py-0.5 rounded-full shadow">
+                                        class="text-[10px] font-bold bg-emerald-500 text-white px-2 py-1 rounded shadow">
                                         Tersedia
                                     </span>
                                     <span x-show="animal.stok <= 0"
-                                        class="text-[10px] font-bold bg-red-500 text-white px-2 py-0.5 rounded-full shadow">
+                                        class="text-[10px] font-bold bg-red-500 text-white px-2 py-1 rounded-full shadow">
                                         Habis
                                     </span>
                                 </div>
 
                                 {{-- Favorite badge --}}
-                                <div x-show="animal.isFavorite" class="absolute top-3 left-3 z-10">
+                                <div x-show="animal.isFavorite" class="absolute top-5 left-5 z-10">
                                     <span
-                                        class="text-[10px] font-bold bg-secondary text-white px-2 py-0.5 rounded-full shadow flex items-center gap-0.5">
+                                        class="text-[10px] font-bold bg-secondary text-white px-2 py-1 rounded shadow flex items-center gap-0.5">
                                         <i class="ph ph-star-fill text-xs"></i> Top
                                     </span>
                                 </div>
