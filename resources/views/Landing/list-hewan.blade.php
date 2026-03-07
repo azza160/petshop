@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 
 <body class="bg-slate-50 font-[Poppins]" x-data="listHewan()">
@@ -51,37 +53,42 @@
     {{-- ====================================================== --}}
     <main>
 
-        {{-- ============================================== --}}
-        {{-- BREADCRUMB + BACK BUTTON BAR                   --}}
-        {{-- ============================================== --}}
-        <div class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-            <div class="px-4 xl:max-w-[1300px] mx-auto w-full py-3 flex items-center justify-between gap-4">
-                {{-- Back Button --}}
+        <div class="bg-white border-b border-slate-100 py-3">
+            <div class="px-4 xl:max-w-[1300px] mx-auto w-full flex items-center justify-start gap-3 sm:gap-4">
+
+                {{-- Back Button - Simplified & Refined --}}
                 <a href="{{ url('/') }}"
-                    class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary transition-colors group shrink-0">
-                    <span
-                        class="w-8 h-8 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-colors">
-                        <i class="ph ph-arrow-left text-base"></i>
-                    </span>
-                    <span class="hidden sm:inline">Kembali ke Beranda</span>
+                    class="hidden sm:flex items-center justify-center gap-2.5 px-4 py-2 bg-primary text-white font-bold rounded-md hover:bg-emerald-600 transition-all duration-300 ease-in-out shadow-sm border border-primary/10 group shrink-0 ">
+                    <div
+                        class="w-5 h-5 rounded bg-white/20 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
+                        <i class="ph ph-arrow-left text-xs text-white"></i>
+                    </div>
+                    <span class="text-xs tracking-wide uppercase">Kembali</span>
                 </a>
 
-                {{-- Breadcrumb --}}
+                {{-- Breadcrumb - Clean & Subtle --}}
                 <nav aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center gap-1 flex-wrap text-sm">
+                    <ol
+                        class="flex items-center gap-2 bg-slate-50 border border-slate-200/50 p-1 rounded-md shadow-none">
                         <li>
                             <a href="{{ url('/') }}"
-                                class="text-muted hover:text-primary transition-colors flex items-center gap-1">
-                                <i class="ph ph-house text-sm"></i>
-                                <span class="hidden sm:inline">Beranda</span>
+                                class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors group/nav">
+                                <div
+                                    class="w-7 h-7 rounded-sm bg-white border border-slate-200/60 text-primary flex items-center justify-center group-hover/nav:bg-primary group-hover/nav:text-white transition-colors">
+                                    <i class="ph ph-house-line text-xs"></i>
+                                </div>
+                                <span class="text-xs font-semibold pr-1">Beranda</span>
                             </a>
                         </li>
-                        <li class="flex items-center gap-1 text-muted">
-                            <i class="ph ph-caret-right text-xs"></i>
-                            <span class="text-dark font-semibold">Daftar Hewan</span>
+                        <li class="flex items-center gap-1.5 text-slate-300">
+                            <i class="ph ph-caret-right text-[10px]"></i>
+                            <div class="flex items-center px-1.5">
+                                <span class="text-dark font-bold text-xs uppercase tracking-tight">Daftar Hewan</span>
+                            </div>
                         </li>
                     </ol>
                 </nav>
+
             </div>
         </div>
 
