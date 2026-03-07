@@ -51,6 +51,15 @@
                                 <div
                                     class="relative w-full aspect-[4/3] bg-slate-100 flex items-center justify-center p-4">
                                     <div class="w-full h-full rounded-sm overflow-hidden relative">
+                                        {{-- Dynamic Gender Label --}}
+                                        @if ($animal->jenis_kelamin)
+                                            <div
+                                                class="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 {{ strtolower($animal->jenis_kelamin) === 'jantan' ? 'bg-primary text-white' : 'bg-secondary text-white' }} backdrop-blur-sm shadow-sm rounded text-[10px] font-bold uppercase tracking-wider">
+                                                <i
+                                                    class="ph {{ strtolower($animal->jenis_kelamin) === 'jantan' ? 'ph-gender-male' : 'ph-gender-female' }} text-xs transition-transform group-hover:scale-110"></i>
+                                                {{ $animal->jenis_kelamin }}
+                                            </div>
+                                        @endif
                                         <img src="{{ $animal->photo }}" alt="{{ $animal->nama }}"
                                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                     </div>
