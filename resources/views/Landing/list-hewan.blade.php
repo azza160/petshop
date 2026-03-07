@@ -53,7 +53,7 @@
     {{-- ====================================================== --}}
     <main>
 
-        <div class="bg-white border-b border-slate-100 py-3">
+        <div class="bg-white border-b border-slate-100 py-3" data-aos="fade-down">
             <div class="px-4 xl:max-w-[1300px] mx-auto w-full flex items-center justify-start gap-3 sm:gap-4">
 
                 {{-- Back Button - Simplified & Refined --}}
@@ -101,9 +101,9 @@
                 <div class="absolute -top-20 -right-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
                 <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
             </div>
-            <div class="relative px-4 xl:max-w-[1300px] mx-auto w-full py-10 md:py-14">
+            <div class="relative px-4 xl:max-w-[1300px] mx-auto w-full py-10 md:py-14" data-aos="fade-up">
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                    <div>
+                    <div data-aos="fade-right" data-aos-delay="100">
                         <span
                             class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
                             <i class="ph ph-paw-print"></i>
@@ -119,8 +119,8 @@
                         </p>
                     </div>
                     <div class="shrink-0">
-                        <div
-                            class="flex items-center gap-3 text-sm bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-md">
+                        <div class="flex items-center gap-3 text-sm bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-md"
+                            data-aos="fade-left" data-aos-delay="200">
                             <i class="ph ph-list-dashes text-primary text-lg"></i>
                             <div>
                                 <span class="text-muted text-xs block">Total Hewan</span>
@@ -135,7 +135,7 @@
         {{-- ============================================== --}}
         {{-- FILTER & SEARCH BAR                           --}}
         {{-- ============================================== --}}
-        <div class="px-4 xl:max-w-[1300px] mx-auto w-full pt-8 pb-4">
+        <div class="px-4 xl:max-w-[1300px] mx-auto w-full pt-8 pb-4" data-aos="fade-up" data-aos-delay="300">
             <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 md:p-5">
                 <div class="flex flex-col lg:flex-row gap-4">
 
@@ -287,8 +287,8 @@
             <div x-show="filteredAnimals.length > 0">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                     <template x-for="(animal, index) in paginatedAnimals" :key="animal.id">
-                        <div
-                            class="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden group hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col relative">
+                        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden group hover:shadow-xl transition-all duration-500 h-full flex flex-col relative"
+                            data-aos="fade-up">
 
                             {{-- Image Container --}}
                             <div class="relative w-full aspect-[4/3] bg-slate-100 flex items-center justify-center p-3 overflow-hidden cursor-pointer"
@@ -419,7 +419,7 @@
             {{-- PAGINATION                                     --}}
             {{-- ============================================== --}}
             <div x-show="totalPages > 1" x-transition
-                class="mt-10 bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+                class="mt-10 bg-white rounded-xl border border-slate-200 shadow-sm p-4" data-aos="fade-up">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                     {{-- Info --}}
                     <div class="text-sm text-muted text-center sm:text-left">
