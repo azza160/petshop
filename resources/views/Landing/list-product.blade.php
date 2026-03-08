@@ -280,6 +280,14 @@
                         {{-- Image Wrapper --}}
                         <div
                             class="w-full h-full rounded-lg overflow-hidden relative shadow-sm bg-white flex items-center justify-center">
+                            {{-- Brand Label --}}
+                            @if ($product->merek)
+                                <div
+                                    class="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2.5 py-1.5 bg-secondary text-white backdrop-blur-sm shadow-sm rounded text-[10px] font-bold uppercase tracking-wider">
+                                    <i class="ph ph-tag text-xs transition-transform group-hover:scale-110"></i>
+                                    {{ $product->merek }}
+                                </div>
+                            @endif
                             {{-- Hover Overlay --}}
                             <div
                                 class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
