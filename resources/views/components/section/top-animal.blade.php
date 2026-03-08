@@ -104,10 +104,10 @@
 
                                     <!-- CTA Buttons -->
                                     <div class="grid grid-cols-2 gap-2 mt-auto">
-                                        <button
+                                        <a href="{{ route('landing.detail-hewan', $animal->id) }}"
                                             class="w-full py-2.5 px-3 border border-slate-300 text-slate-700 text-xs font-semibold rounded-md hover:bg-slate-50 hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-1">
                                             Lihat Detail
-                                        </button>
+                                        </a>
                                         <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik dengan hewan ' . $animal->nama . '. Bisakah saya mendapat informasi lebih lanjut?') }}"
                                             target="_blank"
                                             class="w-full py-2.5 px-3 bg-primary text-white text-xs font-semibold rounded-md hover:bg-emerald-600 transition-colors shadow-sm shadow-primary/20 flex items-center justify-center gap-1">

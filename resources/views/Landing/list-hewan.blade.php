@@ -411,11 +411,11 @@
 
                         {{-- CTA Buttons --}}
                         <div class="grid grid-cols-2 gap-2 mt-auto">
-                            <button type="button"
+                            <a href="{{ route('landing.detail-hewan', $animal->id) }}"
                                 class="w-full py-2 px-2 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-1 cursor-pointer">
                                 <i class="ph ph-eye text-sm"></i>
                                 Lihat Detail
-                            </button>
+                            </a>
                             <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik dengan hewan ' . $animal->nama . '. Bisakah saya mendapat informasi lebih lanjut?') }}"
                                 target="_blank"
                                 class="w-full py-2 px-2 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-emerald-600 transition-colors shadow-sm shadow-primary/20 flex items-center justify-center gap-1">

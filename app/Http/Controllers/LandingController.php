@@ -66,6 +66,13 @@ class LandingController extends Controller
         ));
     }
 
+    public function detailHewan($id)
+    {
+        $hewan = Animal::with(['category', 'fotoHewan'])->findOrFail($id);
+        
+        return view('Landing.detail-hewan', compact('hewan'));
+    }
+
     public function listProduct(Request $request)
     {
         $search     = $request->input('search');
