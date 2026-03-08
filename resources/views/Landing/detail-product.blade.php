@@ -108,7 +108,7 @@
         {{-- ============================================== --}}
         {{-- PRODUCT DETAIL SECTION                          --}}
         {{-- ============================================== --}}
-        <div class="relative bg-white overflow-hidden py-10 lg:py-16">
+        <div class="relative bg-white py-10 lg:py-16">
             <!-- Background Decorative Elements -->
             <div class="absolute inset-0 pointer-events-none overflow-hidden">
                 <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-[100px] opacity-70"></div>
@@ -126,20 +126,24 @@
                             @click="openImage('{{ $produk->foto_utama }}')">
 
                             <!-- Badges -->
-                            <div class="absolute top-4 left-4 z-20 flex flex-col gap-2">
-                                @if ($produk->is_favorit)
-                                    <span
-                                        class="text-xs font-bold bg-secondary text-white px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-sm w-fit">
-                                        <i class="ph-fill ph-star text-sm"></i> Produk Unggulan
-                                    </span>
-                                @endif
+                            <!-- Stock Badge (Top Left) -->
+                            <div class="absolute top-4 left-4 z-20">
                                 @if ($produk->stok > 0)
                                     <span
-                                        class="text-xs font-bold bg-emerald-500/90 text-white px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm w-fit">Tersedia
-                                        ({{ $produk->stok }})</span>
+                                        class="text-[10px] sm:text-xs font-bold bg-emerald-500/90 text-white px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm">Tersedia</span>
                                 @else
                                     <span
-                                        class="text-xs font-bold bg-red-500/90 text-white px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm w-fit">Habis</span>
+                                        class="text-[10px] sm:text-xs font-bold bg-red-500/90 text-white px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm">Habis</span>
+                                @endif
+                            </div>
+
+                            <!-- Favorite Badge (Top Right) -->
+                            <div class="absolute top-4 right-4 z-20">
+                                @if ($produk->is_favorit)
+                                    <span
+                                        class="text-[10px] sm:text-xs font-bold bg-secondary text-white px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-sm">
+                                        <i class="ph-fill ph-star text-sm"></i> Masuk Top
+                                    </span>
                                 @endif
                             </div>
 
@@ -178,9 +182,9 @@
                     </div>
 
                     <!-- Right Column: Information -->
-                    <div class="w-full lg:w-7/12 xl:w-1/2 flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-full lg:w-7/12 xl:w-1/2" data-aos="fade-up" data-aos-delay="100">
 
-                        <div class="flex-1">
+                        <div class="block">
                             <!-- Category & Tags -->
                             <div class="flex flex-wrap items-center gap-2 mb-4">
                                 <span
@@ -267,25 +271,18 @@
                                 </div>
                             </div>
 
-                            <!-- Action Area CTA (Sticky on mobile, inline on desktop) -->
-                            <div
-                                class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-slate-200 z-50 lg:relative lg:p-0 lg:bg-transparent lg:border-t-0 lg:z-auto">
-                                <div class="flex flex-col gap-3 max-w-[1300px] mx-auto">
-                                    <!-- Main Action -->
-                                    <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik untuk membeli produk ' . $produk->nama . ' (Rp ' . number_format($produk->harga, 0, ',', '.') . '). Bisakah saya mendapat informasi ketersediaannya?') }}"
-                                        target="_blank"
-                                        class="w-full xl:w-5/6 py-4 px-8 bg-primary text-white font-bold rounded-2xl hover:bg-emerald-600 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-3 transform hover:-translate-y-1">
-                                        <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
-                                        <span class="text-lg">Beli via WhatsApp</span>
-                                    </a>
-
-                                    <!-- Trust Badge -->
-                                    <p
-                                        class="text-center justify-center lg:justify-start xl:w-5/6 text-[13px] text-slate-500 mt-2 flex items-center gap-2">
-                                        <i class="ph-fill ph-bag-check text-emerald-500 text-lg"></i>
-                                        <span class="font-medium">Jaminan Kualitas 100% Original.</span>
-                                    </p>
-                                </div>
+                            <!-- Action Area CTA — Inline for all screen sizes -->
+                            <div>
+                                <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik untuk membeli produk ' . $produk->nama . ' (Rp ' . number_format($produk->harga, 0, ',', '.') . '). Bisakah saya mendapat informasi ketersediaannya?') }}"
+                                    target="_blank"
+                                    class="w-full xl:w-5/6 py-4 px-8 bg-primary text-white font-bold rounded-2xl hover:bg-emerald-600 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-3 transform hover:-translate-y-1">
+                                    <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                                    <span class="text-lg">Beli via WhatsApp</span>
+                                </a>
+                                <p class="text-[13px] text-slate-500 mt-3 text-center flex items-center gap-2">
+                                    <i class="ph-fill ph-bag-check text-emerald-500 text-lg"></i>
+                                    <span class="font-medium">Jaminan Kualitas 100% Original.</span>
+                                </p>
                             </div>
 
                         </div>
@@ -293,9 +290,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Spacer for mobile sticky button -->
-        <div class="h-28 lg:hidden bg-slate-50 border-t border-slate-100"></div>
 
         {{-- ============================================== --}}
         {{-- CTA BANNER & FOOTER                            --}}
