@@ -157,7 +157,7 @@
 
                         <!-- Thumbnails Row -->
                         @if ($hewan->fotoHewan && count($hewan->fotoHewan) > 0)
-                            <div class="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                            <div class="grid grid-cols-3 gap-3">
                                 @foreach ($hewan->fotoHewan as $img)
                                     <div class="aspect-square bg-slate-50 rounded-2xl overflow-hidden cursor-pointer relative group border border-slate-100/60 hover:border-primary/30 transition-colors shadow-sm"
                                         @click="openImage('{{ $img->path_foto }}')">
