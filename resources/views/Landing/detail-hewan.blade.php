@@ -108,71 +108,67 @@
         {{-- ============================================== --}}
         {{-- ANIMAL DETAIL SECTION                          --}}
         {{-- ============================================== --}}
-        <div class="relative bg-slate-50 overflow-hidden py-10">
+        <div class="relative bg-white overflow-hidden py-10 lg:py-16">
             <!-- Background Decorative Elements -->
             <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                <div class="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl opacity-50"></div>
-                <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-secondary/10 rounded-full blur-3xl opacity-50">
+                <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-[100px] opacity-70"></div>
+                <div class="absolute bottom-0 left-0 w-1/3 h-1/3 bg-secondary/5 rounded-full blur-[100px] opacity-70">
                 </div>
             </div>
 
             <div class="px-4 xl:max-w-[1300px] mx-auto w-full relative z-10">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
 
-                    <!-- Left Column: Gallery (Photo grid similar to Admin view, adapted for landing) -->
-                    <div class="lg:col-span-5 space-y-4" data-aos="fade-right">
+                    <!-- Left Column: Gallery (Sticky on desktop) -->
+                    <div class="w-full lg:w-5/12 xl:w-1/2 lg:sticky lg:top-24 space-y-4" data-aos="fade-right">
                         <!-- Main Photo -->
-                        <div
-                            class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200 relative group overflow-hidden">
-                            @if ($hewan->isFavorite)
-                                <div class="absolute top-6 left-6 z-10">
+                        <div class="bg-slate-50 rounded-3xl overflow-hidden shadow-sm relative group cursor-pointer aspect-square sm:aspect-[4/3] lg:aspect-square flex items-center justify-center border border-slate-100/60"
+                            @click="openImage('{{ $hewan->photo }}')">
+
+                            <!-- Badges -->
+                            <div class="absolute top-4 left-4 z-20 flex flex-col gap-2">
+                                @if ($hewan->isFavorite)
                                     <span
-                                        class="text-xs font-bold bg-secondary text-white px-2.5 py-1.5 rounded shadow-md flex items-center gap-1">
-                                        <i class="ph ph-star-fill text-sm"></i> Top Pilihan
+                                        class="text-xs font-bold bg-secondary text-white px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-sm">
+                                        <i class="ph-fill ph-star text-sm"></i> Pilihan Favorit
                                     </span>
-                                </div>
-                            @endif
-                            <!-- Stock Badge relative to image bounds -->
-                            <div class="absolute top-6 right-6 z-10">
+                                @endif
                                 @if ($hewan->stok > 0)
                                     <span
-                                        class="text-xs font-bold bg-emerald-500 text-white px-2.5 py-1.5 rounded-full shadow-md">Tersedia</span>
+                                        class="text-xs font-bold bg-emerald-500/90 text-white px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm w-fit">Tersedia</span>
                                 @else
                                     <span
-                                        class="text-xs font-bold bg-red-500 text-white px-2.5 py-1.5 rounded-full shadow-md">Habis</span>
+                                        class="text-xs font-bold bg-red-500/90 text-white px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm w-fit">Habis</span>
                                 @endif
                             </div>
 
-                            <div class="aspect-square rounded-xl overflow-hidden cursor-pointer relative"
-                                @click="openImage('{{ $hewan->photo }}')">
-                                <img src="{{ $hewan->photo }}" alt="{{ $hewan->nama }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <img src="{{ $hewan->photo }}" alt="{{ $hewan->nama }}"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+
+                            <!-- Hover Overlay -->
+                            <div
+                                class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                                 <div
-                                    class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <div
-                                        class="bg-white/90 backdrop-blur-sm text-dark px-4 py-2 rounded-full text-sm font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-2">
-                                        <i class="ph ph-arrows-out text-lg"></i> Perbesar
-                                    </div>
+                                    class="bg-white/95 text-slate-800 px-5 py-2.5 rounded-full text-sm font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-2">
+                                    <i class="ph ph-arrows-out text-lg"></i> Lihat Penuh
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gallery Photos Row -->
+                        <!-- Thumbnails Row -->
                         @if ($hewan->fotoHewan && count($hewan->fotoHewan) > 0)
-                            <div class="grid grid-cols-4 gap-3">
+                            <div class="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                                 @foreach ($hewan->fotoHewan as $img)
-                                    <div class="aspect-square bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden cursor-pointer relative group p-1.5"
+                                    <div class="aspect-square bg-slate-50 rounded-2xl overflow-hidden cursor-pointer relative group border border-slate-100/60 hover:border-primary/30 transition-colors shadow-sm"
                                         @click="openImage('{{ $img->path_foto }}')">
-                                        <div class="w-full h-full rounded-lg overflow-hidden relative">
-                                            <img src="{{ $img->path_foto }}"
-                                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                            <div
-                                                class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center mix-blend-multiply">
-                                            </div>
-                                            <div
-                                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                                                <i class="ph ph-magnifying-glass-plus text-2xl drop-shadow-md"></i>
-                                            </div>
+                                        <img src="{{ $img->path_foto }}"
+                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                        <div
+                                            class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center mix-blend-multiply">
+                                        </div>
+                                        <div
+                                            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                                            <i class="ph ph-magnifying-glass-plus text-xl drop-shadow-md"></i>
                                         </div>
                                     </div>
                                 @endforeach
@@ -181,126 +177,142 @@
                     </div>
 
                     <!-- Right Column: Information -->
-                    <div class="lg:col-span-7 flex flex-col h-full" data-aos="fade-left" data-aos-delay="100">
+                    <div class="w-full lg:w-7/12 xl:w-1/2 flex flex-col" data-aos="fade-up" data-aos-delay="100">
 
-                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 relative flex-1">
-                            <!-- Header Info -->
+                        <div class="flex-1">
+                            <!-- Category & Tags -->
                             <div class="flex flex-wrap items-center gap-2 mb-4">
                                 <span
-                                    class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full uppercase tracking-wider">
-                                    <i class="ph-fill ph-tag"></i> {{ $hewan->category->nama ?? '-' }}
+                                    class="inline-flex items-center gap-1.5 text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-lg uppercase tracking-wider">
+                                    <i class="ph-fill ph-paw-print"></i> {{ $hewan->category->nama ?? 'Hewan' }}
                                 </span>
 
                                 @if ($hewan->jenis_kelamin === 'jantan')
                                     <span
-                                        class="px-3 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                                        <i class="ph-bold ph-gender-male"></i> Jantan
+                                        class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1.5 rounded-lg uppercase tracking-wider">
+                                        <i class="ph-bold ph-gender-male text-sm"></i> Jantan
                                     </span>
                                 @elseif($hewan->jenis_kelamin === 'betina')
                                     <span
-                                        class="px-3 py-1 bg-pink-50 text-pink-600 border border-pink-100 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                                        <i class="ph-bold ph-gender-female"></i> Betina
+                                        class="inline-flex items-center gap-1 text-xs font-bold text-pink-600 bg-pink-50 border border-pink-100 px-2.5 py-1.5 rounded-lg uppercase tracking-wider">
+                                        <i class="ph-bold ph-gender-female text-sm"></i> Betina
                                     </span>
                                 @endif
 
                                 <span
-                                    class="px-3 py-1 bg-slate-100 text-slate-600 border border-slate-200 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                                    <i class="ph-fill ph-map-pin"></i>
+                                    class="inline-flex items-center gap-1 text-xs font-bold text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded-lg uppercase tracking-wider">
+                                    <i class="ph-fill ph-map-pin text-sm"></i>
                                     {{ str_replace('_', ' ', $hewan->asal_hewan) ?? '-' }}
                                 </span>
                             </div>
 
-                            <!-- Title & Price -->
-                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark mb-3 leading-tight">
+                            <!-- Title & Price Area -->
+                            <h1
+                                class="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">
                                 {{ $hewan->nama }}
                             </h1>
-                            <div class="flex items-end gap-3 mb-6 pb-6 border-b border-slate-100">
-                                <span
-                                    class="text-sm text-muted font-semibold uppercase tracking-wider mb-1">Harga</span>
-                                <span class="text-3xl sm:text-4xl font-bold text-secondary">Rp
+
+                            <div class="flex items-end gap-3 mb-8">
+                                <span class="text-4xl sm:text-5xl font-black text-primary tracking-tight">Rp
                                     {{ number_format($hewan->harga, 0, ',', '.') }}</span>
                             </div>
 
-                            <!-- Key Specifications Grid -->
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                                <!-- Umur -->
-                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                                    <div
-                                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary mb-3 shadow-sm border border-slate-100">
-                                        <i class="ph ph-calendar-blank text-xl"></i>
+                            <!-- Highlights/Specs Area (Elegant list instead of boxes) -->
+                            <div class="bg-slate-50/80 rounded-3xl p-6 sm:p-8 mb-8 border border-slate-100">
+                                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-5">Spesifikasi
+                                    Utama</h3>
+                                <div class="grid grid-cols-2 gap-x-6 gap-y-5">
+
+                                    <!-- Umur -->
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-primary shadow-sm border border-slate-100 shrink-0">
+                                            <i class="ph-fill ph-calendar-blank text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 font-medium mb-0.5">Umur</p>
+                                            <p class="font-bold text-slate-800">{{ $hewan->umur }} Bulan</p>
+                                        </div>
                                     </div>
-                                    <p class="text-[11px] uppercase tracking-wider text-muted font-bold mb-0.5">Umur
-                                    </p>
-                                    <p class="font-bold text-dark text-base">{{ $hewan->umur }} Bulan</p>
-                                </div>
-                                <!-- Berat -->
-                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                                    <div
-                                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-amber-500 mb-3 shadow-sm border border-slate-100">
-                                        <i class="ph ph-scales text-xl"></i>
+
+                                    <!-- Berat -->
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-500 shadow-sm border border-slate-100 shrink-0">
+                                            <i class="ph-fill ph-scales text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 font-medium mb-0.5">Berat</p>
+                                            <p class="font-bold text-slate-800">{{ $hewan->berat }} Kg</p>
+                                        </div>
                                     </div>
-                                    <p class="text-[11px] uppercase tracking-wider text-muted font-bold mb-0.5">Berat
-                                    </p>
-                                    <p class="font-bold text-dark text-base">{{ $hewan->berat }} Kg</p>
-                                </div>
-                                <!-- Steril -->
-                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                                    <div
-                                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-indigo-500 mb-3 shadow-sm border border-slate-100">
-                                        <i class="ph ph-scissors text-xl"></i>
+
+                                    <!-- Steril -->
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-500 shadow-sm border border-slate-100 shrink-0">
+                                            <i class="ph-fill ph-scissors text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 font-medium mb-0.5">Status Steril</p>
+                                            <p class="font-bold text-slate-800">
+                                                {{ $hewan->sudah_steril ? 'Sudah Steril' : 'Belum Steril' }}</p>
+                                        </div>
                                     </div>
-                                    <p class="text-[11px] uppercase tracking-wider text-muted font-bold mb-0.5">Steril
-                                    </p>
-                                    <p class="font-bold text-dark text-base">
-                                        {{ $hewan->sudah_steril ? 'Sudah' : 'Belum' }}</p>
-                                </div>
-                                <!-- Kondisi -->
-                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                                    <div
-                                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-500 mb-3 shadow-sm border border-slate-100">
-                                        <i class="ph ph-heartbeat text-xl"></i>
+
+                                    <!-- Kondisi -->
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-emerald-500 shadow-sm border border-slate-100 shrink-0">
+                                            <i class="ph-fill ph-heartbeat text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 font-medium mb-0.5">Kondisi</p>
+                                            <p class="font-bold text-slate-800">Sehat & Terawat</p>
+                                        </div>
                                     </div>
-                                    <p class="text-[11px] uppercase tracking-wider text-muted font-bold mb-0.5">Kondisi
-                                    </p>
-                                    <p class="font-bold text-dark text-base">Sehat</p>
+
                                 </div>
                             </div>
 
                             <!-- Description -->
-                            <div class="mb-8 flex-1">
-                                <h3 class="text-lg font-bold text-dark mb-3 flex items-center gap-2">
-                                    <i class="ph-fill ph-article text-primary"></i>
-                                    Deskripsi Singkat
-                                </h3>
+                            <div class="mb-10">
+                                <h3 class="text-xl font-bold text-slate-900 mb-4">Tentang {{ $hewan->nama }}</h3>
                                 <div
-                                    class="prose prose-sm sm:prose-base prose-slate max-w-none text-muted leading-relaxed">
-                                    {!! nl2br(e($hewan->deskripsi)) !!}
+                                    class="prose prose-slate prose-p:leading-relaxed prose-p:text-slate-600 max-w-none text-base">
+                                    <p>{!! nl2br(e($hewan->deskripsi)) !!}</p>
                                 </div>
                             </div>
 
-                            <!-- Action Area CTA -->
-                            <div class="pt-6 border-t border-slate-100 mt-auto">
-                                <div class="flex flex-col sm:flex-row gap-3">
-                                    <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik dengan hewan ' . $hewan->nama . '. Bisakah saya mendapat informasi lebih lanjut mengenai ketersediaan dan proses adopsinya?') }}"
+                            <!-- Action Area CTA (Sticky on mobile, inline on desktop) -->
+                            <div
+                                class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-slate-200 z-50 lg:relative lg:p-0 lg:bg-transparent lg:border-t-0 lg:z-auto">
+                                <div class="flex flex-col gap-3 max-w-[1300px] mx-auto">
+                                    <!-- Main Action -->
+                                    <a href="https://wa.me/6281234567890?text={{ urlencode('Halo, saya tertarik dengan hewan ' . $hewan->nama . ' (Rp ' . number_format($hewan->harga, 0, ',', '.') . '). Bisakah saya mendapat informasi lebih lanjut?') }}"
                                         target="_blank"
-                                        class="flex-1 px-8 py-4 bg-primary text-white font-bold rounded-xl hover:bg-emerald-600 transition-all duration-300 shadow-lg shadow-primary/30 flex items-center justify-center gap-2 group transform hover:-translate-y-1">
-                                        <i
-                                            class="ph-fill ph-whatsapp-logo text-2xl group-hover:scale-110 transition-transform"></i>
-                                        <span>Tanya Kami Sekarang</span>
+                                        class="w-full xl:w-5/6 py-4 px-8 bg-primary text-white font-bold rounded-2xl hover:bg-emerald-600 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-3 transform hover:-translate-y-1">
+                                        <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                                        <span class="text-lg">Tanya via WhatsApp</span>
                                     </a>
-                                </div>
-                                <p
-                                    class="text-center text-xs text-muted mt-4 flex justify-center items-center gap-1.5">
-                                    <i class="ph-fill ph-shield-check text-emerald-500 text-sm"></i>
-                                    Kami menjamin kesehatan dan kualitas hewan peliharaan.
-                                </p>
-                            </div>
-                        </div>
 
+                                    <!-- Trust Badge -->
+                                    <p
+                                        class="text-center justify-center lg:justify-start xl:w-5/6 text-[13px] text-slate-500 mt-2 flex items-center gap-2">
+                                        <i class="ph-fill ph-shield-check text-emerald-500 text-lg"></i>
+                                        <span class="font-medium">Kesehatan terjamin. Layanan terpercaya.</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Spacer for mobile sticky button -->
+        <div class="h-28 lg:hidden bg-slate-50 border-t border-slate-100"></div>
 
         {{-- ============================================== --}}
         {{-- CTA BANNER & FOOTER                            --}}
