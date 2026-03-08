@@ -105,4 +105,11 @@ class LandingController extends Controller
             'kategoriId', 'urutan'
         ));
     }
+
+    public function detailProduct($id)
+    {
+        $produk = Product::with(['category', 'galeri'])->findOrFail($id);
+        
+        return view('Landing.detail-product', compact('produk'));
+    }
 }

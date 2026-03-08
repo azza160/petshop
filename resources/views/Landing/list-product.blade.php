@@ -377,10 +377,10 @@
                         </div>
 
                         <!-- Detail Button Full Width -->
-                        <button
-                            class="w-full py-2 px-3 text-slate-50 text-xs font-semibold rounded-md bg-primary hover:bg-primary/90 transition-all duration-300">
+                        <a href="{{ route('landing.detail-product', $product->id) }}"
+                            class="w-full py-2 px-3 text-slate-50 text-xs font-semibold rounded-md bg-primary hover:bg-primary/90 transition-all duration-300 text-center block">
                             Lihat Detail
-                        </button>
+                        </a>
 
                     </div>
                 </div>
