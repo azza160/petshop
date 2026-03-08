@@ -65,4 +65,37 @@ class LandingController extends Controller
             'kategoriId', 'jenisKelamin', 'asalHewan'
         ));
     }
+
+    public function listProduct(Request $request)
+    {
+        $search     = $request->input('search');
+        $kategoriId = $request->input('kategori', 'semua');
+        $urutan     = $request->input('urutan', 'terbaru'); 
+
+        // Categories for the filter dropdown
+        $categories = Category::where('tipe', 'produk')->get();
+
+        $query = Product::with('category');
+
+        if ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+
+        if ($kategoriId && $kategoriId !== 'semua') {
+            $query->where('kategori_id', $kategoriId);
+        }
+
+        if ($urutan === 'terlama') {
+            $query->orderBy('created_at', 'asc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $products = $query->paginate(2)->withQueryString();
+
+        return view('Landing.list-product', compact(
+            'products', 'categories', 'search',
+            'kategoriId', 'urutan'
+        ));
+    }
 }
