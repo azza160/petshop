@@ -17,7 +17,12 @@ Route::get('/product/detail/{id}', [LandingController::class, 'detailProduct'])-
 //route admin
 
 Route::get('/admin', function () {
-    return view('Admin.admin');
+    $totalHewan = \App\Models\Animal::count();
+    $totalProduct = \App\Models\Product::count();
+    $totalKategoriHewan = \App\Models\Category::where('tipe', 'hewan')->count();
+    $totalKategoriProduct = \App\Models\Category::where('tipe', 'produk')->count();
+
+    return view('Admin.admin', compact('totalHewan', 'totalProduct', 'totalKategoriHewan', 'totalKategoriProduct'));
 })->name('admin');
 
 Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category');

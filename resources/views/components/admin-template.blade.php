@@ -265,7 +265,7 @@
                                 🐾
                             </div>
                             <div>
-                                <p class="font-semibold text-lg leading-tight">Petshop Admin</p>
+                                <p class="font-semibold text-lg leading-tight text-slate-100">Petshop Admin</p>
                                 <p class="text-emerald-100 text-xs sm:text-sm">&copy; {{ date('Y') }} All rights
                                     reserved.</p>
                             </div>
