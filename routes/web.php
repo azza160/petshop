@@ -13,21 +13,19 @@ Route::get('/list-product', [LandingController::class, 'listProduct'])->name('la
 Route::get('/product/detail/{id}', [LandingController::class, 'detailProduct'])->name('landing.detail-product');
 Route::get('/login', [LandingController::class, 'login'])->name('landing.login');
 Route::post('/login', [LandingController::class, 'authenticate'])->name('login');
+Route::post('/logout', [LandingController::class, 'logout'])->name('logout');
 
 
 //route admin
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', function () {
+        $totalHewan = \App\Models\Animal::count();
+        $totalProduct = \App\Models\Product::count();
+        $totalKategoriHewan = \App\Models\Category::where('tipe', 'hewan')->count();
+        $totalKategoriProduct = \App\Models\Category::where('tipe', 'produk')->count();
 
-Route::get('/admin', function () {
-    $totalHewan = \App\Models\Animal::count();
-    $totalProduct = \App\Models\Product::count();
-    $totalKategoriHewan = \App\Models\Category::where('tipe', 'hewan')->count();
-    $totalKategoriProduct = \App\Models\Category::where('tipe', 'produk')->count();
-
-    return view('Admin.admin', compact('totalHewan', 'totalProduct', 'totalKategoriHewan', 'totalKategoriProduct'));
-})->name('admin');
-
-Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category');
-
+        return view('Admin.admin', compact('totalHewan', 'totalProduct', 'totalKategoriHewan', 'totalKategoriProduct'));
+    })->name('admin');
 
     Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::post('/admin/category', [CategoryController::class, 'store'])->name('admin.category.store');
@@ -46,4 +44,5 @@ Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin
     Route::put('/admin/product/{product}', [ProductController::class, 'update'])->name('admin.product.update');
     Route::delete('/admin/product/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
     Route::get('/admin/product/detail/{id}', [ProductController::class, 'show'])->name('admin.product.detail');
+});
 

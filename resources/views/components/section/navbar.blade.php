@@ -61,9 +61,15 @@ sections.forEach(id => {
 
             <!-- CTA -->
             <div class="hidden lg:flex">
-                <a href="#" class="btn-primary text-sm">
-                    Hubungi Kami
-                </a>
+                @auth
+                    <a href="{{ route('admin') }}" class="btn-primary text-sm">
+                        Ke Halaman Admin
+                    </a>
+                @else
+                    <a href="#contact" class="btn-primary text-sm">
+                        Hubungi Kami
+                    </a>
+                @endauth
             </div>
 
             <!-- Mobile Button -->
@@ -129,9 +135,15 @@ sections.forEach(id => {
                         :class="activeSection === 'contact' ? 'text-primary' : ''">Kontak</a></li>
 
                 <li class="pt-2">
-                    <a href="#contact" @click="open=false" class="btn-primary w-full text-center">
-                        Hubungi Kami
-                    </a>
+                    @auth
+                        <a href="{{ route('admin') }}" class="btn-primary w-full text-center">
+                            Ke Halaman Admin
+                        </a>
+                    @else
+                        <a href="#contact" @click="open=false" class="btn-primary w-full text-center">
+                            Hubungi Kami
+                        </a>
+                    @endauth
                 </li>
             </ul>
         </div>

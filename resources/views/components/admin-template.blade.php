@@ -185,10 +185,11 @@
                 <div class="relative" x-data="{ profileOpen: false }" @click.away="profileOpen = false">
                     <button @click="profileOpen = !profileOpen"
                         class="flex items-center gap-3 p-1.5 pr-3 rounded-md hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all">
-                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=10b981&color=fff&rounded=true"
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=10b981&color=fff&rounded=true"
                             alt="Admin Profile" class="w-8 h-8 bg-transparent">
                         <div class="hidden md:flex flex-col text-left">
-                            <span class="text-sm font-semibold text-dark leading-tight">Admin Petshop</span>
+                            <span
+                                class="text-sm font-semibold text-dark leading-tight">{{ Auth::user()->username }}</span>
                             <span class="text-[10px] text-muted font-medium">Administrator</span>
                         </div>
                         <i class="ph ph-caret-down text-muted text-sm transition-transform duration-200 hidden md:block"
@@ -206,24 +207,13 @@
                         x-cloak>
 
                         <div class="px-4 py-2 border-b border-slate-100 md:hidden pb-3 mb-2">
-                            <p class="text-sm font-semibold text-dark">Admin Petshop</p>
+                            <p class="text-sm font-semibold text-dark">{{ Auth::user()->username }}</p>
                             <p class="text-xs text-muted">Administrator</p>
                         </div>
 
-                        <a href="#"
-                            class="flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-primary hover:bg-primary/5 transition-colors">
-                            <i class="ph ph-user-circle text-lg"></i>
-                            My Profile
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-primary hover:bg-primary/5 transition-colors">
-                            <i class="ph ph-gear text-lg"></i>
-                            Settings
-                        </a>
-                        <div class="h-px bg-slate-100 my-2"></div>
-                        <form method="POST" action="#"> <!-- Assuming logout route -->
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="button"
+                            <button type="submit"
                                 class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                 <i class="ph ph-sign-out text-lg"></i>
                                 Logout

@@ -133,4 +133,12 @@ class LandingController extends Controller
 
         return back()->with('error', 'Username atau password salah.');
     }
+
+    public function logout(Request $request)
+    {
+        \Illuminate\Support\Facades\Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
 }
