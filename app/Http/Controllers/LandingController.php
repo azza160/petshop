@@ -112,4 +112,9 @@ class LandingController extends Controller
         
         return view('Landing.detail-product', compact('produk'));
     }
+
+    public function login()
+    {
+        return view('Landing.login');
+    }
 }

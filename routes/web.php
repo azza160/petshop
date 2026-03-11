@@ -11,7 +11,7 @@ Route::get('/list-hewan', [LandingController::class, 'listHewan'])->name('landin
 Route::get('/hewan/detail/{id}', [LandingController::class, 'detailHewan'])->name('landing.detail-hewan');
 Route::get('/list-product', [LandingController::class, 'listProduct'])->name('landing.list-product');
 Route::get('/product/detail/{id}', [LandingController::class, 'detailProduct'])->name('landing.detail-product');
-
+Route::get('/login', [LandingController::class, 'login'])->name('landing.login');
 
 
 //route admin
