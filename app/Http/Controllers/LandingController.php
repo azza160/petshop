@@ -117,4 +117,20 @@ class LandingController extends Controller
     {
         return view('Landing.login');
     }
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => ['required'],
+            'password' => ['required'],
+        ]);
+
+        if (\Illuminate\Support\Facades\Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('admin');
+        }
+
+        return back()->with('error', 'Username atau password salah.');
+    }
 }

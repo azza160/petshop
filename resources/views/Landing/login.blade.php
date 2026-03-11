@@ -94,13 +94,8 @@
 
                 <!-- Password Input -->
                 <div>
-                    <div class="flex items-center justify-between mb-1.5 ml-1 pr-1">
-                        <label for="password" class="block text-sm font-semibold text-slate-700">Password</label>
-                        <!-- (Optional Forgot Password link - can be removed or disabled since simple login) -->
-                        <a href="#"
-                            class="text-xs font-medium text-primary hover:text-emerald-700 transition">Lupa
-                            Password?</a>
-                    </div>
+                    <label for="password"
+                        class="block text-sm font-semibold text-slate-700 mb-1.5 ml-1">Password</label>
                     <div class="relative group" x-data="{ show: false }">
                         <div
                             class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
@@ -115,22 +110,6 @@
                             class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition cursor-pointer">
                             <i class="ph text-lg" :class="show ? 'ph-eye-slash' : 'ph-eye'"></i>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Remember Me -->
-                <div class="flex items-center ml-1">
-                    <div class="relative flex items-center">
-                        <input type="checkbox" id="remember" name="remember" class="peer sr-only">
-                        <div
-                            class="w-5 h-5 border-2 border-slate-300 rounded peer-focus:ring-2 peer-focus:ring-primary/20 peer-checked:border-primary peer-checked:bg-primary transition-all flex items-center justify-center cursor-pointer">
-                            <i
-                                class="ph ph-check text-white text-xs opacity-0 peer-checked:opacity-100 transition-opacity"></i>
-                        </div>
-                        <label for="remember"
-                            class="ml-2.5 block text-sm font-medium text-slate-600 cursor-pointer hover:text-slate-800 transition">
-                            Ingat Saya
-                        </label>
                     </div>
                 </div>
 
