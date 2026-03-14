@@ -98,7 +98,7 @@ class LandingController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $products = $query->paginate(2)->withQueryString();
+        $products = $query->paginate(8)->withQueryString();
 
         return view('Landing.list-product', compact(
             'products', 'categories', 'search',

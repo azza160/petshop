@@ -22,6 +22,9 @@ class ProductSeeder extends Seeder
         $catKandang         = Category::where('nama', 'Kandang & Sangkar')->first();
         $catObat            = Category::where('nama', 'Obat-obatan')->first();
 
+        $catWadah            = Category::firstOrCreate(['nama' => 'Tempat Minum & Makan', 'tipe' => 'produk']);
+        $catPakaian          = Category::firstOrCreate(['nama' => 'Pakaian Hewan', 'tipe' => 'produk']);
+
         $products = [
             [
                 'nama'               => 'Royal Canin Kitten 400gr',
@@ -202,6 +205,42 @@ class ProductSeeder extends Seeder
                 'merek'              => 'HappyCat',
                 'tanggal_kadaluarsa' => '2027-03-20',
                 'berat'              => 0.08,
+            ],
+            [
+                'nama'               => 'Dispenser Air Otomatis 2L',
+                'kategori_id'        => $catWadah->id,
+                'deskripsi'          => 'Dispenser air otomatis dengan filter karbon aktif untuk menjaga kebersihan air minum hewan. Kapasitas 2 liter, suara pompa senyap, dan hemat energi.',
+                'harga'              => 155000,
+                'stok'               => 12,
+                'is_favorit'         => true,
+                'foto_utama'         => 'https://picsum.photos/seed/prod16/500/500',
+                'merek'              => 'FreshPaws',
+                'tanggal_kadaluarsa' => null,
+                'berat'              => 0.8,
+            ],
+            [
+                'nama'               => 'Baju Kucing Model Hoodie M',
+                'kategori_id'        => $catPakaian->id,
+                'deskripsi'          => 'Baju hoodie keren untuk kucing atau anjing kecil. Bahan katun berkualitas tinggi yang lembut dan hangat. Tersedia dalam warna abu-abu dan kuning.',
+                'harga'              => 65000,
+                'stok'               => 25,
+                'is_favorit'         => false,
+                'foto_utama'         => 'https://picsum.photos/seed/prod17/500/500',
+                'merek'              => 'PetTrend',
+                'tanggal_kadaluarsa' => null,
+                'berat'              => 0.07,
+            ],
+            [
+                'nama'               => 'Mangkuk Makan Anti Semut Double',
+                'kategori_id'        => $catWadah->id,
+                'deskripsi'          => 'Sepasang mangkuk makan stainless steel dengan wadah plastik anti semut di bagian bawah. Mudah dibersihkan dan menjaga makanan tetap higienis.',
+                'harga'              => 45000,
+                'stok'               => 30,
+                'is_favorit'         => false,
+                'foto_utama'         => 'https://picsum.photos/seed/prod18/500/500',
+                'merek'              => 'CleanEats',
+                'tanggal_kadaluarsa' => null,
+                'berat'              => 0.2,
             ],
         ];
 
